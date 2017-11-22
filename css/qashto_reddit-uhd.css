@@ -1,0 +1,217 @@
+body,
+.content {
+	background-color: #302423;
+	color: #888;
+}
+
+.content {
+	margin-top: 0!important;
+}
+
+.sitetable {
+	margin-top: 3em;
+}
+
+#header-bottom-left .tabmenu {
+	width: 100%;
+}
+
+.thing,
+.linklisting .even,
+.linklisting .even,
+.stickied.link,
+#ad-frame,
+#ad_main,
+#ad_main_top.ad300x250,
+#images,
+#previoussearch #moresearchinfo,
+#search,
+.account-activity-box,
+.commentarea>.sitetable>.comment,
+.commentarea>.usertext,
+.comments-page .link,
+.comments-page .side .linkinfo,
+.linefield,
+.login-form-side,
+.side .sidecontentbox,
+.side .titlebox,
+.sponsorshipbox,
+.stylesheet-customize-container .pretty-form,
+.submit-link .morelink::before,
+.submit-page .roundfield,
+.wiki-page .wiki-page-content,
+[lang^=ns-] .listing-page .content .sitetable::after,
+[lang^=ns-] .side .md>table::after,
+[lang^=ow-] .listing-page .content .sitetable::after,
+[lang^=ow-] .side .md>table::after,
+html .comment .child .comment,
+.commentarea .comment .comment,
+.commentarea .comment .comment .comment,
+.commentarea .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+.commentarea .thing.noncollapsed,
+.res .commentarea .thing.noncollapsed,
+html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
+	background-color: #0e0100!important;
+	padding: 0!important;
+	padding-top: 0.5em!important;
+	padding-bottom: 0.5em!important;
+	margin-top: 0.5em!important;
+	margin-bottom: 0.5em!important;
+	margin-left: 0!important;
+	margin-right: 0!important;
+	border: 0px!important;
+	border-radius: 0px!important;
+}
+
+#header-bottom-left .tabmenu {
+	background-color: #0e0100!important;
+	color: #812100!important;
+	border: 0px!important;
+	margin: 0!important;
+}
+
+#header {
+	background-color: #0e0100!important;
+	color: #812100!important;
+	margin: 0!important;
+	padding: 0!important;
+	border: 0px!important;
+	border-radius: 0px!important;
+}
+
+#header::before,
+#sr-header-area,
+.rank {
+	background-color: #0e0100!important;
+	color: #812100!important;
+	border: 0px!important;
+}
+
+li,
+a,
+a.choice,
+.entry .flat-list li a,
+.tagline a,
+.search-result-meta a,
+#sr-more-link,
+.tabmenu li a,
+.entry .flat-list .redditSingleClick,
+.tagline a,
+.search-result-meta a,
+#sr-more-link,
+.tabmenu li a,
+li:hover,
+a:hover,
+a.choice:hover,
+.entry .flat-list li a:hover,
+.tagline a:hover,
+.search-result-meta a:hover,
+#sr-more-link:hover,
+.tabmenu li a:hover,
+.entry .flat-list .redditSingleClick:hover,
+.tagline a:hover,
+.search-result-meta a:hover,
+#sr-more-link:hover,
+.tabmenu li a:hover,
+.entry .flat-list .redditSingleClick:visited,
+.entry .flat-list li a:visited,
+body .content .sitetable .link .title a:hover,
+.link .entry .tagline a:hover {
+	background-color: transparent!important;
+	color: #812100!important;
+	border: 0px!important;
+	text-decoration: none;
+}
+
+.link .flat-list,
+p.tagline {
+	display: inline!important;
+}
+
+.rank {
+	font-size: 20px!important;
+	margin-top: 14px!important;
+}
+
+.md,
+.comment .usertext .md,
+p {
+	color: #888;
+}
+
+.thing .title:visited {
+	color: #812100!important;
+}
+
+.thing .title,
+.flair {
+	color: #812100;
+}
+
+.buttons .comments.empty {
+	animation: none;
+}
+
+#header-bottom-right {
+	display: none;
+}
+
+@-webkit-keyframes autofill {
+	to {
+		color: #812100;
+		background: transparent;
+	}
+}
+
+.form-control:-webkit-autofill {
+	-webkit-animation-name: autofill;
+	-webkit-animation-fill-mode: both;
+}
+
+.form-control,
+.form-control:focus {
+	text-align: center!important;
+	background-color: transparent!important;
+	color: #888!important;
+	border: none !important;
+	box-shadow: none!important;
+}
+
+.btn-login {
+	color: #812100!important;
+	background-color: transparent!important;
+	border-color: #812100!important;
+}
+
+.btn-login:hover {
+	color: #0e0100!important;
+	background-color: transparent!important;
+	border-color: #0e0100!important;
+}
+
+::placeholder {
+	color: #820!important;
+}
+
+body>.content {
+	max-width: 100%!important;
+}
+
+.post-sharing {
+	background-color: #0e0100!important;
+	color: #888!important;
+}

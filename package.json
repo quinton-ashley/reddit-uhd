@@ -1,0 +1,32 @@
+{
+	"author": "Quinton Ashley",
+	"bin": {
+		"reddit-uhd": "./app.js"
+	},
+	"bugs": {
+		"url": "https://github.com/quinton-ashley/reddit-uhd/issues"
+	},
+	"contributors": [
+		{
+			"name": "Quinton Ashley",
+			"email": "qashto@gmail.com"
+		}
+	],
+	"dependencies": {
+		"jquery": "^3.2.1"
+	},
+	"description": "reddit redesign hack for UHD displays using local server",
+	"keywords": [
+		"reddit",
+		"uhd",
+		"high-res"
+	],
+	"license": "UNLICENSED",
+	"main": "app.js",
+	"name": "reddit-uhd",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/quinton-ashley/reddit-uhd.git"
+	},
+	"version": "1.0.0"
+}
