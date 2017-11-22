@@ -1,8 +1,9 @@
 {
 	"name": "reddit-uhd",
-	"version": "1.0.0",
+	"short_name": "reddit-uhd",
+	"version": "1.0.1",
 	"manifest_version": 2,
-	"description": "redesigns reddit",
+	"description": "Redesigns reddit!  Replaces thumbnails and low-res previews with full-res images.  This is a public beta release.",
 	"homepage_url": "http://qashto.com",
 	"browser_action": {
 		"default_title": "reddit-uhd"
