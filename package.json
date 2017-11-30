@@ -28,5 +28,11 @@
 		"type": "git",
 		"url": "https://github.com/quinton-ashley/reddit-uhd.git"
 	},
-	"version": "1.0.3"
+	"scripts": {
+		"start": "node app.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"version": "git add -A",
+		"postversion": "git push && git push --tags"
+	},
+	"version": "1.0.4"
 }

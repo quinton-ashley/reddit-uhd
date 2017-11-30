@@ -113,7 +113,7 @@ rel="stylesheet">
 		let commentsPage = url.includes('comments');
 		if (commentsPage) {
 			$('.tabmenu').attr('style', 'display: none!important');
-			$('#siteTable').attr('style', 'display: none!important');
+			//			$('#siteTable').attr('style', 'display: none!important');
 			$('#header').attr('style', 'display: none!important');
 		}
 		$('.spacer').replaceWith($('.spacer').last());
@@ -131,7 +131,6 @@ rel="stylesheet">
 		let things = [];
 		$('.thing').each(function (i, elem) {
 			$(this).addClass('row m-0 p-0' + ((!commentsPage) ? ' justify-content-center' : ''));
-			//			$(this).children().wrapAll('<div class="thing-children col-12 m-0 p-0"><div class="row justify-content-center m-0 p-0"></div></div>');
 			things[i] = $(this);
 		});
 		for (let i = 0; i < things.length; i++) {
@@ -169,7 +168,7 @@ rel="stylesheet">
 
 					things[i].find('.top-matter').addClass('row m-0 p-0');
 					let topMatter = things[i].find('.top-matter');
-					topMatter.find('.title').eq(0).wrapAll('<div class="title-div col-12 m-0 p-0"></div>');
+					topMatter.find('.title').eq(0).wrapAll('<div class="title-div col-12 m-0 px-0 pb-0"></div>');
 					topMatter.find('.tagline').eq(0).wrapAll('<div class="tagline-div col-auto mr-auto m-0 p-0"></div>');
 					topMatter.find('.flat-list').eq(0).wrapAll('<div class="tagline-div col-auto m-0 p-0"></div>');
 					things[i].find('.child').addClass('col-12 m-0 p-0');
@@ -224,8 +223,15 @@ rel="stylesheet">
 				crosspost.text('');
 				crosspost.prepend('<i class="material-icons md-light"> repeat </i>');
 
-				things[i].find('.expando').attr('style', 'display: none!important');
-				things[i].find('.expando-button').attr('style', 'display: none!important');
+				if (!commentsPage) {
+					things[i].find('.expando').attr('style', 'display: none!important');
+					things[i].find('.expando-button').attr('style', 'display: none!important');
+				} else if (i == 0) {
+					things[i].find('.expando').addClass('col-12 m-0 px-auto py-0');
+					things[i].prepend(things[i].find('.expando').detach());
+					things[i].find('.midcol').attr('style', 'display: none!important');
+					things[i].find('.entry').attr('style', 'display: none!important');
+				}
 			} catch (err) {
 				log(err);
 			}
