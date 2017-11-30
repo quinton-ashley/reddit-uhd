@@ -94,7 +94,6 @@ html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
 	color: #812100!important;
 	border: 0px!important;
 	margin: 0!important;
-	text-align: center!important;
 }
 
 #header {
@@ -111,10 +110,6 @@ html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
 	background-color: #0e0100!important;
 	color: #812100!important;
 	border: 0px!important;
-}
-
-#sr-header-area {
-	text-align: center!important;
 }
 
 #header-img {

@@ -1,13 +1,4 @@
 {
-	"name": "reddit-uhd",
-	"short_name": "reddit-uhd",
-	"version": "1.0.2",
-	"manifest_version": 2,
-	"description": "Redesigns reddit!  Replaces thumbnails and low-res previews with full-res images.  This is a public beta release.",
-	"homepage_url": "http://qashto.com",
-	"browser_action": {
-		"default_title": "reddit-uhd"
-	},
 	"content_scripts": [
 		{
 			"matches": ["*://*.reddit.com/*"],
@@ -15,6 +6,8 @@
 			"js": ["/node_modules/jquery/dist/jquery.min.js", "/js/qashto_reddit-uhd.js"]
 		}
 	],
+	"description": "Redesigns reddit!  Replaces thumbnails and low-res previews with full-res images.  This is a public beta release.",
+	"homepage_url": "http://qashto.com",
 	"icons": {
 		"16": "icons/icon16.png",
 		"32": "icons/icon32.png",
@@ -24,7 +17,11 @@
 		"512": "icons/icon512.png",
 		"1024": "icons/icon1024.png"
 	},
+	"manifest_version": 2,
+	"name": "reddit-uhd",
 	"permissions": [
 		"*://*/*"
-	]
+	],
+	"short_name": "reddit-uhd",
+	"version": "1.0.5"
 }
