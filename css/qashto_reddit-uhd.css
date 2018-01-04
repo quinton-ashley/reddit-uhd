@@ -1,3 +1,8 @@
+/*
+bg: #302423
+text: #808080
+*/
+
 ::-webkit-scrollbar {
 	display: none;
 }
@@ -23,10 +28,12 @@ body>.content,
 
 .sitetable {
 	margin-top: 3em;
+	padding-right: 0!important;
 }
 
 #header-bottom-left .tabmenu {
 	width: 60%;
+	vertical-align: sub!important;
 }
 
 .thing,
@@ -89,7 +96,8 @@ html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
 	border-radius: 0px!important;
 }
 
-#header-bottom-left .tabmenu {
+#header-bottom-left .tabmenu,
+#header-bottom-right {
 	background-color: #0e0100!important;
 	color: #812100!important;
 	border: 0px!important;
@@ -212,9 +220,18 @@ p,
 	animation: none;
 }
 
-#header-bottom-right,
+.c-close,
+.post-sharing-label,
 #sr-more-link {
 	display: none!important;
+}
+
+.post-sharing {
+	border: none !important;
+}
+
+.drop-choices {
+	background-color: #302423!important;
 }
 
 @-webkit-keyframes autofill {
@@ -224,19 +241,22 @@ p,
 	}
 }
 
-.form-control:-webkit-autofill {
+
+/*
+.form-control.login:-webkit-autofill {
 	-webkit-animation-name: autofill;
 	-webkit-animation-fill-mode: both;
 }
 
-.form-control,
-.form-control:focus {
+.form-control.login,
+.form-control.login:focus {
 	text-align: center!important;
 	background-color: transparent!important;
 	color: #808080!important;
 	border: none !important;
 	box-shadow: none!important;
 }
+*/
 
 .btn-login {
 	color: #812100!important;
@@ -319,6 +339,114 @@ body>.content>.spacer:nth-of-type(1) {
 .title-div {
 	padding-top: 6px;
 }
+
+iframe {
+	border: none;
+	width: 100%;
+	height: 80vh;
+}
+
+.md-8 {
+	font-size: 16px!important;
+}
+
+.modal.fade .modal-dialog {
+	transform: translate(0, 0)!important;
+}
+
+video {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.comment-vote {
+	display: inline-flex!important;
+	width: auto!important;
+	float: none!important;
+	vertical-align: middle;
+}
+
+.comment-button-list {
+	display: inline-flex!important;
+	float: right!important;
+}
+
+.comment-score-text {
+	font-size: 0.7rem!important;
+}
+
+.comment-vote-arrow::after {
+	top: auto!important;
+	left: auto!important;
+}
+
+.nestedlisting {
+	margin-top: 0!important;
+}
+
+textarea {
+	width: 100%!important;
+}
+
+div.child {
+	min-height: 0!important;
+}
+
+.row {
+	width: 100%!important;
+	max-width: 100vw!important;
+	margin: 0!important;
+}
+
+#search {
+	display: inline!important;
+}
+
+.reddit-search {
+	display: inline!important;
+	float: right!important;
+	margin: 0!important;
+	padding: 0!important;
+}
+
+#searchexpando {
+	display: block;
+	width: fit-content!important;
+	float: right!important;
+}
+
+.comment .child,
+.comment .showreplies {
+	border-left-style: solid!important;
+	border-left-color: #808080!important;
+}
+
+.comment.collapsed .tagline,
+.comment.collapsed .tagline a,
+.comment.collapsed .search-result-meta,
+.comment.collapsed .search-result-meta a {
+	vertical-align: sub!important;
+}
+
+#sr-header-area .drop-choices.srdrop {
+	margin: 0!important;
+	border: none!important;
+}
+
+#sr-header-area {
+	text-transform: none!important;
+}
+
+#search input[type=text] {
+	width: fit-content!important;
+}
+
+
+/*
+.sr-list {
+	width: fit-content!important;
+}
+*/
 
 
 /*

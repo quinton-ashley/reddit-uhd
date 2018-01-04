@@ -1,9 +1,14 @@
 {
+	"background": {
+		"scripts": ["background.js"]
+	},
 	"content_scripts": [
 		{
 			"matches": ["*://*.reddit.com/*"],
 			"css": ["/css/qashto_reddit-uhd.css"],
-			"js": ["/node_modules/jquery/dist/jquery.min.js", "/js/qashto_reddit-uhd.js"]
+			"js": ["/node_modules/jquery/dist/jquery.min.js", "/js/qashto_reddit-uhd.js"],
+			"run_at": "document_end",
+			"all_frames": true
 		}
 	],
 	"description": "Redesigns reddit!  Replaces thumbnails and low-res previews with full-res images.  This is a public beta release.",
@@ -20,6 +25,8 @@
 	"manifest_version": 2,
 	"name": "reddit-uhd",
 	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
 		"*://*/*"
 	],
 	"short_name": "reddit-uhd",
