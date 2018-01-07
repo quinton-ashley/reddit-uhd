@@ -32,7 +32,7 @@ body>.content,
 }
 
 #header-bottom-left .tabmenu {
-	width: 60%;
+	width: fit-content!important;
 	vertical-align: sub!important;
 }
 
@@ -45,7 +45,6 @@ body>.content,
 #ad_main_top.ad300x250,
 #images,
 #previoussearch #moresearchinfo,
-#search,
 .account-activity-box,
 .commentarea,
 .commentarea>.sitetable>.comment,
@@ -398,10 +397,6 @@ div.child {
 	margin: 0!important;
 }
 
-#search {
-	display: inline!important;
-}
-
 .reddit-search {
 	display: inline!important;
 	float: right!important;
@@ -411,7 +406,7 @@ div.child {
 
 #searchexpando {
 	display: block;
-	width: fit-content!important;
+	width: 100%!important;
 	float: right!important;
 }
 
@@ -438,7 +433,57 @@ div.child {
 }
 
 #search input[type=text] {
-	width: fit-content!important;
+	width: 100%!important;
+}
+
+.formtabs-content {
+	width: unset!important;
+	border: none!important;
+	padding: 0!important;
+}
+
+input[type=text].form-control,
+input[type=url].form-control,
+textarea.form-control {
+	width: 100%!important;
+}
+
+.close-comments-page {
+	position: relative;
+	top: 4px;
+}
+
+.panestack-title {
+	border-bottom-style: solid!important;
+}
+
+.menuarea {
+	display: inline!important;
+}
+
+body.with-listing-chooser #header .pagename {
+	position: unset!important;
+	bottom: 20px;
+	margin-left: 10px;
+}
+
+#mail,
+#chat {
+	text-indent: unset!important;
+	background-image: unset!important;
+	vertical-align: unset!important;
+	width: unset!important;
+	height: unset!important;
+	top: 0!important;
+}
+
+#sr-header-area .width-clip,
+#header-bottom-right {
+	position: relative!important;
+}
+
+.tabmenu li {
+	margin: 0px!important;
 }
 
 
