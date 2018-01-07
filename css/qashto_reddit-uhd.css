@@ -475,6 +475,7 @@ body.with-listing-chooser #header .pagename {
 	width: unset!important;
 	height: unset!important;
 	top: 0!important;
+	margin: 0!important;
 }
 
 #sr-header-area .width-clip,
