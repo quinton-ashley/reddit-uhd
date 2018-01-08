@@ -37,8 +37,8 @@ body>.content,
 }
 
 .thing,
-.linklisting .even,
-.linklisting .even,
+.linklisting .odd,
+.linklisting .odd,
 .stickied.link,
 #ad-frame,
 #ad_main,
@@ -198,7 +198,8 @@ p.tagline {
 p,
 .tagline .stickied-tagline,
 .search-result-meta .stickied-tagline,
-.dropdown.srdrop .selected {
+.dropdown.srdrop .selected,
+.spoiler-stamp {
 	color: #808080!important;
 }
 
@@ -487,20 +488,7 @@ body.with-listing-chooser #header .pagename {
 	margin: 0px!important;
 }
 
-
-/*
-.sr-list {
-	width: fit-content!important;
+.message-count {
+	margin: 0!important;
+	padding: 0!important;
 }
-*/
-
-
-/*
-.midcol {
-	border-left: 1px solid white;
-}
-
-.entry {
-	border-right: 1px solid white;
-}
-*/

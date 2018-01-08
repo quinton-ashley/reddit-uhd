@@ -132,6 +132,7 @@ $(function () {
 	}
 
 	async function editThing($thing) {
+		$thing.addClass('row m-0 p-0' + ((redditPage) ? ' justify-content-center' : ''));
 		let content;
 		// data-whitelist-status="promo_adult_nsfw"
 		if (((redditPage && !$thing.hasClass('spoiler')) || commentsPage) && !opt.l) {
@@ -140,10 +141,6 @@ $(function () {
 				if (data_url) {
 					if ((commentsPage && $thing.hasClass('spoiler')) || redditPage) {
 						content = await getContent(data_url);
-					}
-					if ((commentsPage && data_url.includes('comments')) || content == 'expando') {
-						content = $thing.find('.expando').attr('data-cachedhtml');
-						content = '<div class="full-res-content col-12 m-0 p-0"><center>' + content + '</center></div>';
 					}
 					if (content) {
 						$thing.prepend(content);
@@ -268,17 +265,19 @@ $(function () {
 	async function mutationCallback(mutationsList) {
 		for (let mutation of mutationsList) {
 			if (mutation.type == 'childList') {
-				log('A child node has been added or removed.');
 				let newNodes = mutation.addedNodes;
 				if (newNodes) {
 					let $nodes = $(newNodes);
 					for (let i = 0; i < $nodes.length; i++) {
-						let $node = $nodes[i];
+						let $node = $nodes.eq(i);
 						if ($node.hasClass('thing')) {
-							try {
-								await editThing($node);
-							} catch (err) {
-								log(err);
+							let $things = $node.find('.thing');
+							for (let j = -1; j < $things.length; j++) {
+								try {
+									await editThing(((j < 0) ? $node : $things.eq(j)));
+								} catch (err) {
+									log(err);
+								}
 							}
 						}
 					}
@@ -304,14 +303,14 @@ rel="stylesheet">
 
 		if (redditPage) {
 			$('#header').addClass('row');
-			$('#sr-header-area').addClass('col-8 px-1');
+			$('#sr-header-area').addClass('col-8 p-0');
 			$('#header-bottom-left').addClass('col-8 col-lg-10 px-1');
 			$('#header-bottom-left').children().eq(0).remove();
 			$('form#search').children().eq(0).addClass('form-control-sm reddit-search mx-0 my-auto p-auto');
 			$('form#search').children().eq(1).remove();
 			$('ul.sr-bar').eq(1).remove();
 			$('#header-bottom-left').eq(0).after($('form#search').detach());
-			$('form#search').eq(0).wrap('<div class="col-4 col-lg-2 px-1 py-auto"></div>');
+			$('form#search').eq(0).wrap('<div class="col-4 col-lg-2 px-1 my-auto"></div>');
 			$('#sr-header-area').after($('#header-bottom-right').detach());
 			$('#header-bottom-right').addClass('col-4 px-1 py-0 text-right');
 			$('span.separator').remove();
@@ -349,7 +348,11 @@ rel="stylesheet">
 			let $mail = $prof.find('#mail');
 			$mail.text('');
 			$mail.prepend('<i class="material-icons md-light md-8"> mail_outline </i>');
-			$mail.addClass('px-1');
+			if ($('.message-count').length) {
+				$mail.addClass('pl-1 pr-0');
+			} else {
+				$mail.addClass('px-1');
+			}
 			let $chat = $prof.find('#chat');
 			$chat.text('');
 			$chat.prepend('<i class="material-icons md-light md-8"> chat_bubble_outline </i>');
@@ -373,11 +376,6 @@ rel="stylesheet">
 		}
 		if (commentsPage) {
 			$('.tabmenu').remove();
-			if (!$('full-res-content')) {
-				$('#siteTable').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 m-0 p-0');
-			} else {
-				$('#siteTable').addClass('col-12 m-0 p-0');
-			}
 			$('.commentarea').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 m-0 p-0');
 			$('.nestedlisting').eq(0).addClass('p-3');
 			$('#siteTable').wrap('<div class="row justify-content-center">');
@@ -436,24 +434,26 @@ rel="stylesheet">
 		$('#siteTable').addClass('col-12 m-0 p-0');
 		$('.thumbnail').wrap('<div class="thumbnail-div col-1 mx-0 my-auto p-0"></div>');
 
-		let $things = [];
-		$('.thing').each(function (i, elem) {
-			$(this).addClass('row m-0 p-0' + ((redditPage) ? ' justify-content-center' : ''));
-			$things[i] = $(this);
-		});
+		let $things = $('.thing');
 		for (let i = 0; i < $things.length; i++) {
-			let $thing = $things[i];
+			let $thing = $things.eq(i);
 			try {
 				await editThing($thing);
 			} catch (err) {
 				log(err);
 			}
 			if (commentsPage && i == 0) {
-				if ($thing.hasClass('spoiler') || $thing.find('.usertext').length) {
+				if ($thing.find('.usertext').length) {
+					$('#siteTable').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 m-0 p-0');
 					$thing.find('.expando').addClass('col-12 m-0 px-auto py-0');
 					$thing.prepend($thing.find('.expando').detach());
 				} else {
-					$thing.remove();
+					$('#siteTable').addClass('col-12 m-0 p-0');
+					if ($thing.hasClass('spoiler')) {
+						$thing.find('.expando').remove();
+					} else {
+						$thing.remove();
+					}
 				}
 				$thing.find('.thumbnail').remove();
 				$thing.find('.midcol').attr('style', 'display: none!important');
@@ -465,20 +465,16 @@ rel="stylesheet">
 		$('body').html($('body').html().split('&nbsp;').join(''));
 
 		if (commentsPage) {
-			// Select the node that will be observed for mutations
-			let targetNode = document.getElementsByClassName('nestedlisting').item(0);
-
-			// Options for the observer (which mutations to observe)
+			let observers = [];
 			let config = {
 				attributes: false,
 				childList: true
 			};
-
-			// Create an observer instance linked to the callback function
-			let observer = new MutationObserver(mutationCallback);
-
-			// Start observing the target node for configured mutations
-			observer.observe(targetNode, config);
+			let children = document.getElementsByClassName('sitetable');
+			for (let i = 0; i < children.length; i++) {
+				observers[i] = new MutationObserver(mutationCallback);
+				observers[i].observe(children.item(i), config);
+			}
 		}
 	}
 
