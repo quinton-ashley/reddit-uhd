@@ -1,19 +1,43 @@
 # reddit-uhd
 ![app image by ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Antu_reddit.svg/512px-Antu_reddit.svg.png)
-# Redesign Philosophy and Goals
-The purpose of the redesign is to load full quality images on the front page of reddit and for all subreddits, not tiny thumbnails or annoying collapsible preview images.  My end goal is to make desktop reddit look more modern on high-res screens and less ugly, like a big screen version of the beautiful iOS reddit app.  This app requires a fast internet connection for the best experience as it will load full images.
-# Credits
+## Redesign Philosophy and Goals
+[reddit-uhd](https://github.com/quinton-ashley/reddit-uhd) replaces tiny thumbnails and annoying collapsible preview images with full quality images, gifs, and videos on the front page of reddit and for all subreddits.  Transforms the design of every page, making reddit modern, clutter-free, and dark with an intuitive layout.  This extension is a must have for those that frequent photography subreddits and anyone who wants a truly enhanced browsing experience on reddit.  If you like this extension, consider showing your appreciation for the time, love, and effort I put in by making a one time donation to my Paypal.  If you want to support the continued development of reddit-uhd, consider making a monthly donation to my Patreon.  If you don't have the money to donate, please post about reddit-uhd on your favorite subreddits.  Enjoy the definitive reddit experience! :)  
+
+[https://www.patreon.com/qashto](https://www.patreon.com/qashto)  
+[paypal.me/qashto/5](paypal.me/qashto/5)
+
+## REQUIRED PREFERENCE
+Don't allow subreddits to show you custom themes!
+
+## Recommended Preferences
+For the best experience use these Preferences on your reddit account:
+Don't autoplay videos on the desktop comments page
+Don't beta test features
+
+## RES Compatibility
+This extension does not account for changes to reddit's appearance made by the Reddit Enhancement Suite extension.  My current recommendation is to either limit the appearance changes made by RES or disable/remove the RES extension from your browser before using reddit-uhd.
+
+## Feature Requests
+Please make feature requests on the project's Github [issues page](https://github.com/quinton-ashley/reddit-uhd/issues).
+
+## Regarding Ads
+This extension does not and will never remove native ads on reddit.  I have very puposefully preserved reddit's ads while developing this extension.  Reddit is supported by native ads that are not obtrusive or obnoxious.  My goal is to increase the popularity of reddit, not hurt the site's profitability.
+
+## Credits
 ### App Icon
 [App Icon](https://commons.wikimedia.org/wiki/File:Antu_reddit.svg) used under [CC Attribution-ShareAlike 3.0 United States](https://creativecommons.org/licenses/by-sa/3.0/us/)
-
 Elegant Alternative Suite for Plasma 5.
-
 Original parts, changes, mixes, re-mixes and re-designs by Fabián Alexis <fabian.alexis@openmailbox.org> github.com/fabianalexisinostroza/Antu pinguinosyuncafe.wordpress.com
-
 Some elements of icon theme are part of [Breeze icon Theme](github.com/NitruxSA/breeze-icon-theme).
-
 The Plasma theme was created using the base of [Midna-dark Theme](github.com/KaOSx/midna) from Mcder3 (creator of Maia and Hellium too) and the Caledonia plasma theme by Malcer
-
 Antü Plasma-KDE Theme are licensed under the CREATIVE COMMONS BY-SA 3.0.
-
 All Antü suite components are licensed Creative Commons or compatible (look at the licensing of external components)
+
+### Fonts and Icons
+Material Design Icons by Google
+### Frameworks
+Bootstrap
+jQuery
+popper.js
+### Package Management
+npm

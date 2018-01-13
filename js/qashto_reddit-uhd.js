@@ -8,7 +8,21 @@ $(function () {
 	let commentsPage = curPageUrl.includes('/comments');
 	let submitPage = curPageUrl.includes('/submit');
 	let prefsPage = curPageUrl.includes('/prefs');
-	let redditPage = !(commentsPage || submitPage || prefsPage);
+	let msgPage = curPageUrl.includes('/message');
+	let usrPage = curPageUrl.includes('/user');
+	let redditPage = !(commentsPage || submitPage || prefsPage || msgPage || usrPage);
+
+	let observers = [];
+	let mutationConfig = {
+		attributes: false,
+		childList: true
+	};
+
+	if (!Array.prototype.last) {
+		Array.prototype.last = function () {
+			return this[this.length - 1];
+		};
+	};
 
 	$.fn.swapWith = function (that) {
 		var $this = this;
@@ -49,7 +63,11 @@ $(function () {
 		});
 	}
 
-	async function getContent(url) {
+	async function getContent($thing) {
+		let url = $thing.attr('data-url');
+		if (!url) {
+			return null;
+		}
 		let content = '';
 		if (!url || url.slice(0, 1) == '/') {
 			return null;
@@ -62,37 +80,36 @@ $(function () {
 			return null;
 		}
 		if (url.includes('gfycat.com')) {
-			content = '<video controls="" name="media" loop=""><source src="' + url.replace('gfycat', 'giant.gfycat') + '.webm" type="video/webm" loop=""></video>';
-			return '<div class="full-res-content col-12 m-0 p-0"><center>' + content + '</center></div>';
+			content = '<video controls="" name="media" loop=""><source src="';
+			content += url.replace('gfycat', 'giant.gfycat');
+			content += '.webm" type="video/webm" loop=""></video>';
+			return '<div class="full-res-content col-12"><center>' + content + '</center></div>';
 		}
 		if (url.includes('/comments/') || !parsedURL.pathname.includes('.') || parsedURL.pathname.split('.').pop() == 'html') {
 			if (url.includes('v.redd.it')) {
-				return 'expando';
+				return null;
 			}
 			if (url.slice(0, 5) != 'https') {
 				url = 'https' + url.slice(4);
 			}
 			try {
 				let xhr = '<div>' + await makeRequest("GET", url) + '</div>';
-				let xml = $($.parseHTML(xhr));
+				let $xml = $($.parseHTML(xhr));
 				let special;
 				if (url.includes('flickr')) {
-					special = xml.find('img.main-photo').attr('src');
+					special = $xml.find('img.main-photo').attr('src');
 					if (special) {
 						special = 'https://' + special.slice(2);
 					}
 				}
-				if (url.includes('gfycat.com')) {
-					return
-				}
 				if (url.includes('/comments/')) {
-					special = xml.find('.expando').html();
+					special = $xml.find('.expando').html();
 					if (special) {
 						return special;
 					}
 				}
 				if (!special) {
-					url = xml.find('meta[property="og:image"]').attr('content');
+					url = $xml.find('meta[property="og:image"]').attr('content');
 				} else {
 					url = special;
 				}
@@ -117,6 +134,7 @@ $(function () {
 			url = 'https' + url.slice(4);
 		}
 		let ext = parsedURL.pathname.split('.').pop();
+		let type = 'content';
 		switch (ext) {
 			case 'com':
 			case 'html':
@@ -125,140 +143,187 @@ $(function () {
 				content = '<img src="' + url.slice(0, -1) + '" style="max-width:100%; max-height:100vh"';
 				break;
 			default:
-				content = '<img src="' + url + '" style="max-width:100vw; max-height:100vh"';
+				type = 'img';
+				content = `<img src="${url}" style="max-width:100vw; max-height:100vh"`;
 		}
 		content += ' onerror="this.style=\'display:none\'">';
-		return '<div class="full-res-content col-12 m-0 p-0"><center>' + content + '</center></div>';
+		return `<div class="full-res-${type} col-12"><center>${content}</center></div>`;
+	}
+
+	function iconTagger(icon, size, extraClass) {
+		return '<i class="material-icons md-light ' + size + ' ' + extraClass + '"> ' + icon + ' </i>';
 	}
 
 	async function editThing($thing) {
-		$thing.addClass('row m-0 p-0' + ((redditPage) ? ' justify-content-center' : ''));
+		$thing.addClass('row' + ((redditPage || msgPage || usrPage) ? ' justify-content-center' : ''));
 		let content;
-		// data-whitelist-status="promo_adult_nsfw"
-		if (((redditPage && !$thing.hasClass('spoiler')) || commentsPage) && !opt.l) {
+		// data-whitelist-status="promo_adult_nsfw" use this prop to filter nsfw
+		if (((redditPage && !$thing.hasClass('spoiler') && !$thing.hasClass('promoted')) || commentsPage) && !opt.l) {
 			try {
-				let data_url = $thing.attr('data-url');
-				if (data_url) {
-					if ((commentsPage && $thing.hasClass('spoiler')) || redditPage) {
-						content = await getContent(data_url);
-					}
-					if (content) {
-						$thing.prepend(content);
-						$thing.find('.thumbnail-div').remove();
-					}
+				if ((commentsPage && $thing.hasClass('spoiler')) || redditPage) {
+					content = await getContent($thing);
+				}
+				if (content) {
+					$thing.prepend(content);
+					$thing.find('.thumbnail-div').remove();
+					//					$thing.click(function () {
+					//						log('hi');
+					//						$('body').animate({
+					//							scrollTop: $(this).offset().top - ($(window).height() - $(this).outerHeight(true)) / 2
+					//						}, 200);
+					//					});
 				}
 			} catch (err) {
 				log(err);
 			}
 		}
-		$thing.find('.parent').remove();
+		if (usrPage) {
+			$thing.find('.parent').eq(0).wrap(`
+<div class="row justify-content-center"><div class="parent-div col-10 col-md-8 col-lg-6"></div></div>`);
+		}
 		$thing.find('.rank').remove();
 
 		let entryClass;
 		if (commentsPage) {
-			entryClass = 'col-12 m-0 p-0';
+			entryClass = 'col-12';
 		} else if (content) {
-			entryClass = 'col-11 col-md-9 col-lg-7 m-0 p-0';
+			entryClass = 'col-11 col-md-9 col-lg-7';
 		} else {
-			entryClass = 'col-10 col-md-8 col-lg-6 m-0 p-0';
+			entryClass = 'col-10 col-md-8 col-lg-6';
 		}
 		$thing.find('.entry').addClass(entryClass);
 
-		$thing.find('.top-matter').addClass('row m-0 p-0');
+		$thing.find('.top-matter').addClass('row');
 		let $topMatter = $thing.find('.top-matter');
-		$topMatter.find('.title').eq(0).wrapAll('<div class="title-div col-12 m-0 px-0 pb-0"></div>');
-		$topMatter.find('.tagline').eq(0).wrapAll('<div class="tagline-div col-auto mr-auto m-0 p-0"></div>');
-		$topMatter.find('.flat-list').eq(0).wrapAll('<div class="tagline-div col-auto m-0 p-0"></div>');
-		$thing.find('.child').addClass('col-12 m-0 p-0');
-		$thing.find('.clearleft').addClass('col-12 m-0 p-0');
+		$topMatter.find('.title').eq(0).wrapAll('<div class="title-div col-12 px-0 pb-0"></div>');
+		$topMatter.find('.tagline').eq(0).wrapAll('<div class="tagline-div col-auto m-0 mr-auto"></div>');
+		$topMatter.find('.flat-list').eq(0).wrapAll('<div class="list-div col-auto"></div>');
+		$thing.find('.child').addClass('col-12');
+		$thing.find('.clearleft').addClass('col-12');
 
 
-		$thing.find('.arrow').addClass('material-icons mx-auto my-0 p-0');
+		$thing.find('.arrow').addClass('material-icons mx-auto my-0');
 
 		let $interact = $thing.find('.flat-list');
+		let iconSize = ((redditPage) ? ' ' : 'md-8');
 
-		let $bylinks = $interact.find('.bylink').text('');
-		$bylinks.parent().attr('style', 'display:none!important');
+		if (!usrPage) {
+			let $bylinks = $interact.find('.bylink');
+			$bylinks.text('');
+			$bylinks.parent().attr('style', 'display:none!important');
+		} else {
+			$interact.find('.first').attr('style', 'display:none!important');
+		}
 
 		let $crosspost = $interact.find('.crosspost-button').children();
 		$crosspost.text('');
-		$crosspost.prepend('<i class="material-icons md-light"> repeat </i>');
+		$crosspost.prepend(iconTagger('repeat', iconSize));
 
 		let modalName = $crosspost.attr('data-crosspost-fullname') + '_qaru-modal';
-		let $comment = $interact.find('.first');
+		let $comment = $interact.find('.first').eq(0);
 		$comment.children().text('');
 		if (redditPage) {
-			$thing.find('.midcol').addClass('col-1 mx-0 my-auto p-0');
+			$('#siteTable_organic').attr('style', '');
+			$('.usertext').remove();
+		}
+
+		let $share = $interact.find('.share').eq(0).attr('style', 'display:none!important');
+
+		$interact.find('.hide-button').parent().addClass('hidepost-button');
+		let $hide = $interact.find('.hide-button').find('span').children();
+		$hide.text('');
+		$hide.prepend(iconTagger('highlight_off', iconSize));
+
+		$thing.find('p.title').eq(0).append($thing.find('p.title').eq(0).find('.linkflairlabel').detach());
+
+		let $report = $interact.find('.report-button').children();
+		$report.text('');
+		$report.prepend(iconTagger('error_outline', iconSize));
+
+		if (redditPage) {
+			$thing.find('.midcol').addClass('vote col-1 mx-0 my-auto');
 			let commentsUrl = $comment.children().attr('href');
 			$comment.after(`
 <li class="comment-popup-button">
 	<a target="_blank" href="${$thing.attr('data-permalink')}">
-		<i class="material-icons md-light"> comment </i>
+		${iconTagger('comment', iconSize)}
 	</a>
 </li>`);
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
-			$save.prepend('<i class="material-icons md-light"> bookmark_border </i>');
+			$save.prepend(iconTagger('bookmark_border', iconSize));
 
-			let $share = $interact.find('.share').children();
-			$share.text('');
-			$share.children().text('');
-			$share.addClass('post-sharing-button');
-			$share.prepend('<i class="material-icons md-light"> link </i>');
-
-			$interact.find('.hide-button').parent().addClass('hidepost-button');
-			let hide = $interact.find('.hide-button').find('span').children();
-			hide.text('');
-			hide.prepend('<i class="material-icons md-light"> highlight_off </i>');
-
-			let $report = $interact.find('.report-button').children();
-			$report.text('');
-			$report.prepend('<i class="material-icons md-light"> report </i>');
-			$thing.find('.expando').attr('style', 'display: none!important');
-			$thing.find('.expando-button').attr('style', 'display: none!important');
+			$thing.find('.expando').attr('style', 'display:none!important');
+			$thing.find('.expando-button').remove();
 			$thing.find('a.title').attr('target', '_blank');
-		} else if (commentsPage) {
-			$comment.attr('style', 'display:block!important;');
-			$comment.children().eq(0).prepend('<i class="material-icons md-light md-8"> code </i>');
+		}
+		if (commentsPage || msgPage || usrPage) {
+			$comment.attr('style', 'display:none!important');
 
 			let $embed = $interact.find('.embed-comment');
-			$embed.parent().attr('style', 'display: none!important');
+			$embed.parent().attr('style', 'display:none!important');
 
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
-			$save.prepend('<i class="material-icons md-ligh md-8"> bookmark_border </i>');
-
-			let $gold = $interact.find('.give-gold-button').children();
-			$gold.text('');
-			$gold.prepend('<i class="material-icons md-light md-8"> star_border </i>');
+			$save.prepend(iconTagger('bookmark_border', iconSize));
 
 			let $reply = $interact.find('.reply-button').children();
 			$reply.text('');
-			$reply.prepend('<i class="material-icons md-light md-8"> reply </i>');
+			$reply.prepend(iconTagger('reply', iconSize));
+
+			let $gold = $interact.find('.give-gold-button').children();
+			$gold.text('');
+			$gold.prepend(iconTagger('star_border', iconSize));
 
 			let $del = $interact.find('.togglebutton');
 			$del.text('');
-			$del.eq(0).prepend('<i class="material-icons md-light md-8"> do_not_disturb_on </i>');
-			$del.eq(1).prepend('<i class="material-icons md-light md-8"> delete </i>');
+			$del.eq(0).prepend(iconTagger('do_not_disturb_on', iconSize));
+			$del.eq(1).prepend(iconTagger('delete', iconSize));
 
 			let $edit = $interact.find('.edit-usertext');
 			$edit.text('');
-			$edit.prepend('<i class="material-icons md-light md-8"> mode_edit </i>');
+			$edit.prepend(iconTagger('mode_edit', iconSize));
 
 			$thing.find('.sitetable').addClass('col-12 m-0');
 			$thing.find('.flat-list').addClass('m-0');
 			for (let j = 0; j < 3; j++) {
 				let $score = $thing.find('.score').eq(j);
 				$score.text($score.text().split(' ')[0]);
-				$score.addClass('md-8 mx-0 my-auto p-0 comment-score-text');
+				$score.addClass('md-8 comment-score-text mx-0 my-auto');
 				$thing.find('.arrow').eq(0).after($score.detach());
 			}
 			$thing.find('.arrow').addClass('md-8 comment-vote-arrow mx-0 my-auto');
-			$thing.find('.midcol').addClass('comment-vote m-0 p-0');
+			$thing.find('.midcol').addClass('comment-vote');
 			$thing.find('.flat-list').addClass('comment-button-list');
 			$thing.find('p.tagline').eq(0).after($thing.find('.midcol').eq(0));
 			$thing.find('.midcol').eq(0).after($thing.find('.flat-list').eq(0));
-			$thing.find('div.usertext-body').addClass('col-12 m-0 p-0');
+			$thing.find('div.usertext-body').addClass('col-12');
+		}
+		if (msgPage) {
+			$thing.find('p.subject').eq(0).addClass('mx-auto my-auto');
+			$thing.find('p.subject').eq(0).wrapAll(`
+<div class="row justify-content-center"><div class="subject-div col-10 col-md-8 col-lg-6"></div></div>`);
+
+			let $markUnread = $interact.find('.unread').find('a').eq(0);
+			$markUnread.text('');
+			$markUnread.prepend(iconTagger('visibility_off', iconSize));
+
+			let $reply = $interact.children().last().children();
+			$reply.text('');
+			$reply.prepend(iconTagger('reply', iconSize));
+
+			$interact.append($interact.next().detach());
+			let $showParent = $interact.children().last().children();
+			$showParent.text('');
+			$showParent.prepend(iconTagger('short_text', iconSize, 'flip-x flip-y'));
+
+		} else if (usrPage) {
+			let $context = $interact.find('.bylink')
+				.filter(function (i) {
+					return ($(this).text() == 'context');
+				});
+			$context.text('');
+			$context.prepend(iconTagger('clear_all', iconSize, 'flip-x'));
 		}
 	}
 
@@ -270,9 +335,15 @@ $(function () {
 					let $nodes = $(newNodes);
 					for (let i = 0; i < $nodes.length; i++) {
 						let $node = $nodes.eq(i);
-						if ($node.hasClass('thing')) {
+						if ($node.hasClass('thing') || $node.hasClass('sitetable')) {
+							if (opt.v) {
+								log('added ' + (($node.hasClass('thing')) ? 'thing' : 'sitetable'));
+							}
+							if ($node.hasClass('sitetable')) {
+								$node.addClass('col-12 m-0');
+							}
 							let $things = $node.find('.thing');
-							for (let j = -1; j < $things.length; j++) {
+							for (let j = (($node.hasClass('thing')) ? -1 : 0); j < $things.length; j++) {
 								try {
 									await editThing(((j < 0) ? $node : $things.eq(j)));
 								} catch (err) {
@@ -285,7 +356,6 @@ $(function () {
 			}
 		}
 	}
-
 	async function editPage() {
 		$('head').append(`
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -293,17 +363,17 @@ rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 `);
-		$('.listing-chooser').attr('style', 'display: none!important');
-		$('.infobar').attr('style', 'display: none!important');
+		$('.listing-chooser').attr('style', 'display:none!important');
+		$('.infobar').attr('style', 'display:none!important');
 		$('iframe').remove();
 		$('body').addClass('container-fluid');
-		$('input[type=text]').addClass('form-control m-0');
-		$('input[type=url]').addClass('form-control m-0');
+		$('input[type=text]').addClass('form-control');
+		$('input[type=url]').addClass('form-control');
 		$('textarea').addClass('form-control');
 
-		if (redditPage) {
+		if (redditPage || msgPage || usrPage) {
 			$('#header').addClass('row');
-			$('#sr-header-area').addClass('col-8 p-0');
+			$('#sr-header-area').addClass('col-8');
 			$('#header-bottom-left').addClass('col-8 col-lg-10 px-1');
 			$('#header-bottom-left').children().eq(0).remove();
 			$('form#search').children().eq(0).addClass('form-control-sm reddit-search mx-0 my-auto p-auto');
@@ -315,39 +385,46 @@ rel="stylesheet">
 			$('#header-bottom-right').addClass('col-4 px-1 py-0 text-right');
 			$('span.separator').remove();
 
+			let barIcons = ['home', 'people', 'public', 'shuffle', 'face'];
 			let $bar = $('ul.sr-bar').children();
-			$bar.eq(0).children().eq(0).text('');
-			$bar.eq(0).children().eq(0).prepend('<i class="material-icons md-light md-8 px-1"> home </i>');
-			$bar.eq(1).children().eq(0).text('');
-			$bar.eq(1).children().eq(0).prepend('<i class="material-icons md-light md-8 px-1"> people </i>');
-			$bar.eq(2).children().eq(0).text('');
-			$bar.eq(2).children().eq(0).prepend('<i class="material-icons md-light md-8 px-1"> public </i>');
-			$bar.eq(3).children().eq(0).text('');
-			$bar.eq(3).children().eq(0).prepend('<i class="material-icons md-light md-8 px-1"> shuffle </i>');
-			$bar.eq(4).children().eq(0).text('');
-			$bar.eq(4).children().eq(0).prepend('<i class="material-icons md-light md-8 px-1"> face </i>');
+			if ($bar.eq(4).children().eq(0).text()[0] != 'u') {
+				$bar.eq(4).remove();
+				$bar = $('ul.sr-bar').children();
+			}
+			for (let i = 0; i < barIcons.length; i++) {
+				$bar.eq(i).children().eq(0).text('');
+				$bar.eq(i).children().eq(0).prepend(iconTagger(barIcons[i], 'md-8', 'px-1'));
+			}
+
+			if (redditPage || usrPage) {
+				$('.menuarea').attr('style', 'display:none!important');
+			} else if (msgPage) {
+				$('.menuarea').children().eq(0).children().eq(0).children().eq(0).remove();
+				$('.tabmenu').append($('.menuarea').children().eq(0).children().eq(0).children().detach());
+				$('.menuarea').attr('style', 'display:none!important');
+			}
 			let $tabs = $('ul.tabmenu').children();
-			$tabs.eq(0).children().eq(0).text('');
-			$tabs.eq(0).children().eq(0).prepend('<i class="material-icons md-light"> whatshot </i>');
-			$tabs.eq(1).children().eq(0).text('');
-			$tabs.eq(1).children().eq(0).prepend('<i class="material-icons md-light"> fiber_new </i>');
-			$tabs.eq(2).children().eq(0).text('');
-			$tabs.eq(2).children().eq(0).prepend('<i class="material-icons md-light"> trending_up </i>');
-			$tabs.eq(3).children().eq(0).text('');
-			$tabs.eq(3).children().eq(0).prepend('<i class="material-icons md-light"> announcement </i>');
-			$tabs.eq(4).children().eq(0).text('');
-			$tabs.eq(4).children().eq(0).prepend('<i class="material-icons md-light"> vertical_align_top </i>');
-			$tabs.eq(5).children().eq(0).text('');
-			$tabs.eq(5).children().eq(0).prepend('<i class="material-icons md-light"> account_balance </i>');
-			$tabs.eq(6).children().eq(0).text('');
-			$tabs.eq(6).children().eq(0).prepend('<i class="material-icons md-light"> language </i>');
+			let icons;
+			if (redditPage) {
+				icons = ['whatshot', 'fiber_new', 'trending_up',
+									 'announcement', 'vertical_align_top', 'account_balance', 'language'];
+			} else if (msgPage) {
+				icons = ['mode_edit', 'inbox', 'send', 'visibility', 'markunread_mailbox',
+								 'forum', 'art_track', 'contact_mail'];
+			} else if (usrPage) {
+				icons = ['account_box', 'forum', 'art_track', 'account_balance'];
+			}
+			for (let i = 0; i < icons.length; i++) {
+				$tabs.eq(i).children().eq(0).text('');
+				$tabs.eq(i).children().eq(0).prepend(iconTagger(icons[i]));
+			}
 
 			let $prof = $('#header-bottom-right');
-			$prof.find('span.user').attr('style', 'vertical-align: text-top;');
+			$prof.find('span.user').attr('style', 'vertical-align:text-top;');
 			$prof.find('.beta-hint').remove();
 			let $mail = $prof.find('#mail');
 			$mail.text('');
-			$mail.prepend('<i class="material-icons md-light md-8"> mail_outline </i>');
+			$mail.prepend(iconTagger('mail_outline', 'md-8'));
 			if ($('.message-count').length) {
 				$mail.addClass('pl-1 pr-0');
 			} else {
@@ -355,19 +432,18 @@ rel="stylesheet">
 			}
 			let $chat = $prof.find('#chat');
 			$chat.text('');
-			$chat.prepend('<i class="material-icons md-light md-8"> chat_bubble_outline </i>');
+			$chat.prepend(iconTagger('chat_bubble_outline', 'md-8'));
 			$chat.addClass('px-1');
 			let $settings = $prof.find('a.pref-lang');
 			$settings.text('');
-			$settings.prepend('<i class="material-icons md-light md-8"> settings </i>');
+			$settings.prepend(iconTagger('settings', 'md-8'));
 			$settings.addClass('px-1');
 			let $logout = $prof.find('form.logout').children().last();
 			$logout.text('');
-			$logout.prepend('<i class="material-icons md-light md-8"> exit_to_app </i>');
+			$logout.prepend(iconTagger('exit_to_app', 'md-8'));
 			$logout.addClass('px-1');
-
-			$('.menuarea').attr('style', 'display: none!important');
-			$('.spacer').replaceWith($('.spacer').last());
+			//			$('.spacer').replaceWith($('.spacer').last());
+			$('.trending-subreddits').parent().remove();
 			$('.spacer').addClass('row');
 		} else if (commentsPage || submitPage || prefsPage) {
 			$('#header').remove();
@@ -376,20 +452,20 @@ rel="stylesheet">
 		}
 		if (commentsPage) {
 			$('.tabmenu').remove();
-			$('.commentarea').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 m-0 p-0');
+			$('.commentarea').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12');
 			$('.nestedlisting').eq(0).addClass('p-3');
 			$('#siteTable').wrap('<div class="row justify-content-center">');
 			$('.commentarea').wrap('<div class="row justify-content-center">');
-			$('.panestack-title').addClass('row justify-content-center m-0');
-			$('.menuarea').addClass('m-0 pl-3');
-			$('.menuarea').children().eq(0).attr('style', 'vertical-align: -webkit-baseline-middle;');
+			$('.panestack-title').addClass('row justify-content-center');
+			$('.menuarea').addClass('mx-0 my-auto pl-3');
 			$('.panestack-title').append($('.menuarea').detach());
-			$('.panestack-title').children().wrapAll('<div class="col-10"><div class="row justify-content-center"></div></div>');
+			$('.panestack-title').children().wrapAll(`
+<div class="col-10"><div class="row justify-content-center"></div></div>`);
 			$('.panestack-title').prepend('<div class="col-1"></div>');
 			$('.panestack-title').append(`
 <div class="col-1 ml-auto mr-0 my-auto">
 <a class="close-comments-page" onclick="window.close();">
-	<i class="material-icons md-light"> close </i>
+	${iconTagger('close')}
 </a>
 </div>
 `);
@@ -397,13 +473,13 @@ rel="stylesheet">
 			$('.usertext-edit').parent().addClass('row justify-content-center');
 			$('.usertext-edit').addClass('col-10');
 			$('.usertext-edit').children().eq(0).children().eq(0).addClass('mx-auto my-auto');
-			$('.help-hoverable').parent().attr('style', 'display: none!important;');
+			$('.help-hoverable').parent().attr('style', 'display:none!important');
 		} else if (submitPage) {
 			let $tabs = $('ul.tabmenu').children();
 			$tabs.eq(0).children().eq(0).text('');
-			$tabs.eq(0).children().eq(0).prepend('<i class="material-icons md-light"> link </i>');
+			$tabs.eq(0).children().eq(0).prepend(iconTagger('link'));
 			$tabs.eq(1).children().eq(0).text('');
-			$tabs.eq(1).children().eq(0).prepend('<i class="material-icons md-light"> text_fields </i>');
+			$tabs.eq(1).children().eq(0).prepend(iconTagger('text_fields'));
 
 			$('br').remove();
 			$('div.content').addClass('row justify-content-center');
@@ -428,11 +504,11 @@ rel="stylesheet">
 			$('input#sr-autocomplete').attr('placeholder', 'subreddit');
 		}
 
-		$('#chat-app').attr('style', 'display: none!important');
+		$('#chat-app').attr('style', 'display:none!important');
 
 		$('.content').attr('style', 'width: 100vw!important; max-width: 100vw!important;');
-		$('#siteTable').addClass('col-12 m-0 p-0');
-		$('.thumbnail').wrap('<div class="thumbnail-div col-1 mx-0 my-auto p-0"></div>');
+		$('#siteTable').addClass('col-12');
+		$('.thumbnail').wrap('<div class="thumbnail-div col-1 mx-0 my-auto"></div>');
 
 		let $things = $('.thing');
 		for (let i = 0; i < $things.length; i++) {
@@ -444,11 +520,11 @@ rel="stylesheet">
 			}
 			if (commentsPage && i == 0) {
 				if ($thing.find('.usertext').length) {
-					$('#siteTable').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 m-0 p-0');
-					$thing.find('.expando').addClass('col-12 m-0 px-auto py-0');
+					$('#siteTable').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12');
+					$thing.find('.expando').addClass('col-12 px-auto py-0');
 					$thing.prepend($thing.find('.expando').detach());
 				} else {
-					$('#siteTable').addClass('col-12 m-0 p-0');
+					$('#siteTable').addClass('col-12');
 					if ($thing.hasClass('spoiler')) {
 						$thing.find('.expando').remove();
 					} else {
@@ -456,26 +532,27 @@ rel="stylesheet">
 					}
 				}
 				$thing.find('.thumbnail').remove();
-				$thing.find('.midcol').attr('style', 'display: none!important');
-				$thing.find('.entry').attr('style', 'display: none!important');
+				$thing.find('.midcol').attr('style', 'display:none!important');
+				$thing.find('.entry').attr('style', 'display:none!important');
 			}
 		}
 		// removes all spaces from the body, they are not elements
 		// so this can't be done with jquery
 		$('body').html($('body').html().split('&nbsp;').join(''));
 
+		let children = [];
 		if (commentsPage) {
-			let observers = [];
-			let config = {
-				attributes: false,
-				childList: true
-			};
-			let children = document.getElementsByClassName('sitetable');
-			for (let i = 0; i < children.length; i++) {
-				observers[i] = new MutationObserver(mutationCallback);
-				observers[i].observe(children.item(i), config);
-			}
+			children = document.querySelectorAll('.sitetable, .child');
+			log(children);
+		} else if (redditPage) {
+			children = document.getElementsByClassName('organic-listing');
 		}
+		for (let i = 0; i < children.length; i++) {
+			observers.push(new MutationObserver(mutationCallback));
+			observers.last().observe(children.item(i), mutationConfig);
+		}
+
+		log('qashto reddit-uhd loaded!');
 	}
 
 	log('qashto reddit-uhd loading...');
