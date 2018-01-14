@@ -3,12 +3,15 @@ bg: #302423
 text: #808080
 */
 
-::-webkit-scrollbar,
-.side {
-	display: none;
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	::-webkit-scrollbar {
+		display: none!important;
+	}
 }
 
+.side,
 #header-img,
+#chat-app,
 .c-close,
 .post-sharing-label,
 #sr-more-link,
