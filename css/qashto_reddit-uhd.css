@@ -50,6 +50,7 @@ body,
 .spacer,
 body>.content,
 .commentarea,
+.commentarea>.usertext,
 .usertext-body,
 .comment-vote .title,
 .entry,
@@ -68,7 +69,6 @@ body>.content,
 .reddit-search,
 .full-res-content,
 .full-res-img,
-.report-button,
 .link .usertext-body .md {
 	margin: 0!important;
 	padding: 0!important;
@@ -103,7 +103,7 @@ body>.content,
 #previoussearch #moresearchinfo,
 .account-activity-box,
 .commentarea,
-.commentarea>.sitetable>.comment,
+.commentarea>.sitetable>.qaru.comment,
 .commentarea>.usertext,
 .comments-page .link,
 .comments-page .side .linkinfo,
@@ -120,24 +120,24 @@ body>.content,
 [lang^=ns-] .side .md>table::after,
 [lang^=ow-] .listing-page .content .sitetable::after,
 [lang^=ow-] .side .md>table::after,
-html .comment .child .comment,
-.commentarea .comment .comment,
-.commentarea .comment .comment .comment,
-.commentarea .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
-.commentarea .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment,
+html .qaru.comment .child .qaru.comment,
+.commentarea .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
+.commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment,
 .commentarea .thing.noncollapsed,
 .res .commentarea .thing.noncollapsed,
 html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
@@ -250,7 +250,7 @@ p.tagline {
 }
 
 .md,
-.comment .usertext .md,
+.qaru.comment .usertext .md,
 p,
 .tagline .stickied-tagline,
 .search-result-meta .stickied-tagline,
@@ -437,8 +437,10 @@ div.child {
 	float: right!important;
 }
 
-.comment .child,
-.comment .showreplies {
+.qaru.comment .child,
+.qaru.comment .showreplies,
+.res-commentBoxes .qaru.comment div.child {
+	border-left-width: 1px!important;
 	border-left-style: solid!important;
 	border-left-color: #808080!important;
 }
@@ -468,7 +470,8 @@ textarea.form-control,
 	width: 100%!important;
 }
 
-.close-comments-page {
+#qaru-close-comments-page,
+#qaru-comments-page-show-content {
 	position: relative;
 	top: 4px;
 }
@@ -552,4 +555,43 @@ input.btn:hover {
 	background-color: inherit!important;
 	border: none!important;
 	padding: inherit!important;
+}
+
+
+/*RES*/
+
+.qaru.entry.res-selected,
+.qaru.entry.RES-keyNav-activeElement.res-selected,
+.qaru.entry.res-selected .qaru.md-container,
+.res-nightmode .qaru.entry.res-selected,
+.res-nightmode .qaru.entry.res-selected .qaru.md-container {
+	background-color: inherit!important;
+}
+
+.res-nightmode .qaru.entry.res-selected>.tagline,
+.res-nightmode .qaru.entry.res-selected .md-container>.md,
+.res-nightmode .qaru.entry.res-selected .md-container>.md p {
+	color: inherit!important;
+}
+
+.thing.link .redditSingleClick::after,
+.gearIcon::after {
+	content: ""!important;
+}
+
+.res-navTop #header-bottom-right {
+	top: unset!important;
+}
+
+#RESShortcutsViewport,
+#RESShortcuts,
+.srLeftContainer,
+#NREFloat,
+.res-commentNavToggle,
+#REScommentSubToggle,
+.qaru.RESUserTag,
+.qaru#RESShortcutsEditContainer,
+.qaru.res-tabmenu-button,
+.qaru.res-show-images {
+	display: none!important;
 }

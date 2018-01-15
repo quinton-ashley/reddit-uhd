@@ -14,14 +14,14 @@ For the best experience use these Preferences on your reddit account:
 Don't autoplay videos on the desktop comments page
 Don't beta test features
 
-## RES Compatibility
-This extension does not account for changes to reddit's appearance made by the Reddit Enhancement Suite extension.  My current recommendation is to either limit the appearance changes made by RES or disable/remove the RES extension from your browser before using reddit-uhd.
+## RES Coexistence
+This extension can coexist with the Reddit Enhancement Suite extension.  I recommend switching on night mode and switching off Subreddit Manager and Multireddit Navigation.
 
 ## Feature Requests
 Please make feature requests on the project's Github [issues page](https://github.com/quinton-ashley/reddit-uhd/issues).
 
 ## Regarding Ads
-This extension does not and will never remove native ads on reddit.  I have very puposefully preserved reddit's ads while developing this extension.  Reddit is supported by native ads that are not obtrusive or obnoxious.  My goal is to increase the popularity of reddit, not hurt the site's profitability.
+This extension does not and will never remove native ads on reddit.  I have very puposefully preserved reddit's ads while developing this extension.  Reddit is supported by ads and native ads are not obtrusive or obnoxious.  My goal is to increase the popularity of reddit, not hurt the site's profitability.
 
 ## Credits
 ### App Icon

@@ -85,7 +85,7 @@ $(function () {
 			content += '.webm" type="video/webm" loop=""></video>';
 			return '<div class="full-res-content col-12"><center>' + content + '</center></div>';
 		}
-		if (url.includes('/comments/') || !parsedURL.pathname.includes('.') || parsedURL.pathname.split('.').pop() == 'html') {
+		if (!parsedURL.pathname.includes('.') || parsedURL.pathname.split('.').pop() == 'html') {
 			if (url.includes('v.redd.it')) {
 				return null;
 			}
@@ -100,12 +100,6 @@ $(function () {
 					special = $xml.find('img.main-photo').attr('src');
 					if (special) {
 						special = 'https://' + special.slice(2);
-					}
-				}
-				if (url.includes('/comments/')) {
-					special = $xml.find('.expando').html();
-					if (special) {
-						return special;
 					}
 				}
 				if (!special) {
@@ -154,15 +148,13 @@ $(function () {
 		return '<i class="material-icons md-light ' + size + ' ' + extraClass + '"> ' + icon + ' </i>';
 	}
 
-	async function editThing($thing) {
-		$thing.addClass('row' + ((redditPage || msgPage || usrPage) ? ' justify-content-center' : ''));
+	async function editThing($thing, isPrimary) {
+		$thing.addClass('qaru row' + ((redditPage || (commentsPage && isPrimary) || msgPage || usrPage) ? ' justify-content-center' : ''));
 		let content;
 		// data-whitelist-status="promo_adult_nsfw" use this prop to filter nsfw
 		if (((redditPage && !$thing.hasClass('spoiler') && !$thing.hasClass('promoted')) || commentsPage) && !opt.l) {
 			try {
-				if ((commentsPage && $thing.hasClass('spoiler')) || redditPage) {
-					content = await getContent($thing);
-				}
+				content = await getContent($thing);
 				if (content) {
 					$thing.prepend(content);
 					$thing.find('.thumbnail-div').remove();
@@ -184,9 +176,9 @@ $(function () {
 		$thing.find('.rank').remove();
 
 		let entryClass;
-		if (commentsPage) {
+		if (commentsPage && !isPrimary) {
 			entryClass = 'col-12';
-		} else if (content) {
+		} else if (content || (commentsPage && isPrimary)) {
 			entryClass = 'col-11 col-md-9 col-lg-7';
 		} else {
 			entryClass = 'col-10 col-md-8 col-lg-6';
@@ -197,6 +189,9 @@ $(function () {
 		let $topMatter = $thing.find('.top-matter');
 		$topMatter.find('.title').eq(0).wrapAll('<div class="title-div col-12 px-0 pb-0"></div>');
 		$topMatter.find('.tagline').eq(0).wrapAll('<div class="tagline-div col-auto m-0 mr-auto"></div>');
+		if (commentsPage && isPrimary && $topMatter.find('.flat-list').length == 0) {
+			$topMatter.append($thing.find('.flat-list').eq(0).detach());
+		}
 		$topMatter.find('.flat-list').eq(0).wrapAll('<div class="list-div col-auto"></div>');
 		$thing.find('.child').addClass('col-12');
 		$thing.find('.clearleft').addClass('col-12');
@@ -205,7 +200,7 @@ $(function () {
 		$thing.find('.arrow').addClass('material-icons mx-auto my-0');
 
 		let $interact = $thing.find('.flat-list');
-		let iconSize = ((redditPage) ? ' ' : 'md-8');
+		let iconSize = ((redditPage || (commentsPage && isPrimary)) ? ' ' : 'md-8');
 
 		if (!usrPage) {
 			let $bylinks = $interact.find('.bylink');
@@ -227,6 +222,9 @@ $(function () {
 			$('.usertext').remove();
 		}
 
+		$interact.find('.res-toggleAllChildren').parent()
+			.attr('style', 'display:none!important');
+
 		let $share = $interact.find('.share').eq(0).attr('style', 'display:none!important');
 
 		$interact.find('.hide-button').parent().addClass('hidepost-button');
@@ -241,7 +239,6 @@ $(function () {
 		$report.prepend(iconTagger('error_outline', iconSize));
 
 		if (redditPage) {
-			$thing.find('.midcol').addClass('vote col-1 mx-0 my-auto');
 			let commentsUrl = $comment.children().attr('href');
 			$comment.after(`
 <li class="comment-popup-button">
@@ -249,19 +246,32 @@ $(function () {
 		${iconTagger('comment', iconSize)}
 	</a>
 </li>`);
+		}
+		if (redditPage || (commentsPage && isPrimary)) {
+			$thing.find('.midcol').addClass('vote col-1 mx-0 my-auto');
+
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
 			$save.prepend(iconTagger('bookmark_border', iconSize));
+
+			let $source = $interact.find('.viewSource').eq(0).children();
+			$source.attr('data-text', '');
+			$source.prepend(iconTagger('code', iconSize));
+
+			$interact.find('.redditSingleClick').prepend(iconTagger('call_split', iconSize));
 
 			$thing.find('.expando').attr('style', 'display:none!important');
 			$thing.find('.expando-button').remove();
 			$thing.find('a.title').attr('target', '_blank');
 		}
-		if (commentsPage || msgPage || usrPage) {
+		if ((commentsPage && !isPrimary) || msgPage || usrPage) {
 			$comment.attr('style', 'display:none!important');
 
-			let $embed = $interact.find('.embed-comment');
-			$embed.parent().attr('style', 'display:none!important');
+			$interact.find('.viewSource, .saveComments')
+				.attr('style', 'display:none!important');
+
+			$interact.find('.toggleChildren, .embed-comment').parent()
+				.attr('style', 'display:none!important');
 
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
@@ -356,6 +366,11 @@ $(function () {
 			}
 		}
 	}
+
+	function commentPageContentShown() {
+		$('#qaru-comments-page-show-content').attr('style', 'display:none!important');
+	}
+
 	async function editPage() {
 		$('head').append(`
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -461,14 +476,27 @@ rel="stylesheet">
 			$('.panestack-title').append($('.menuarea').detach());
 			$('.panestack-title').children().wrapAll(`
 <div class="col-10"><div class="row justify-content-center"></div></div>`);
-			$('.panestack-title').prepend('<div class="col-1"></div>');
 			$('.panestack-title').append(`
 <div class="col-1 ml-auto mr-0 my-auto">
-<a class="close-comments-page" onclick="window.close();">
+<a id="qaru-close-comments-page" onclick="window.close();">
 	${iconTagger('close')}
 </a>
-</div>
-`);
+</div>`);
+			$('.panestack-title').prepend(`
+<div class="col-1 ml-auto mr-0 my-auto">
+<a id="qaru-comments-page-show-content" onclick="
+				console.log('show content');
+				$('.thing').eq(0).attr('style', 'display:flex!important');
+				$('#qaru-comments-page-show-content').attr('style', 'display:none!important');
+">
+	${iconTagger('art_track')}
+</a>
+</div>`);
+
+			let $gold = $('.give-gold-button').eq(0).children().eq(0);
+			$gold.text('');
+			$gold.prepend(iconTagger('star_border'));
+
 			$('.title-button').addClass('px-0 my-auto');
 			$('.usertext-edit').parent().addClass('row justify-content-center');
 			$('.usertext-edit').addClass('col-10');
@@ -514,28 +542,36 @@ rel="stylesheet">
 		for (let i = 0; i < $things.length; i++) {
 			let $thing = $things.eq(i);
 			try {
-				await editThing($thing);
+				await editThing($thing, (i == 0));
 			} catch (err) {
 				log(err);
 			}
 			if (commentsPage && i == 0) {
-				if ($thing.find('.usertext').length) {
-					$('#siteTable').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12');
-					$thing.find('.expando').addClass('col-12 px-auto py-0');
+				$thing.find('.thumbnail-div').remove();
+				if (!($thing.find('.full-res-content').length || $thing.find('.full-res-img').length)) {
+					$thing.find('.expando').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 px-auto py-5');
+					$thing.find('.expando').attr('style', 'display: block!important;');
 					$thing.prepend($thing.find('.expando').detach());
+					$thing.find('.expando').wrapAll('<div class="row justify-content-center"></div>');
+					commentPageContentShown();
 				} else {
-					$('#siteTable').addClass('col-12');
 					if ($thing.hasClass('spoiler')) {
-						$thing.find('.expando').remove();
+						$thing.find('.expando').attr('style', 'display:none!important');
+						commentPageContentShown();
 					} else {
-						$thing.remove();
+						$thing.attr('style', 'display:none!important');
 					}
 				}
-				$thing.find('.thumbnail').remove();
-				$thing.find('.midcol').attr('style', 'display:none!important');
-				$thing.find('.entry').attr('style', 'display:none!important');
 			}
 		}
+		// control over RES
+		$('.entry, .RESUserTag, #RESShortcutsEditContainer, .res-tabmenu-button, .res-show-images, .md-container').addClass('qaru');
+		$('.srSep').remove();
+		$('#openRESPrefs').children().append(`
+<a href="/#res:settings/about">
+${iconTagger('settings_applications', 'md-8')}</a>`);
+
+
 		// removes all spaces from the body, they are not elements
 		// so this can't be done with jquery
 		$('body').html($('body').html().split('&nbsp;').join(''));
@@ -543,9 +579,8 @@ rel="stylesheet">
 		let children = [];
 		if (commentsPage) {
 			children = document.querySelectorAll('.sitetable, .child');
-			log(children);
 		} else if (redditPage) {
-			children = document.getElementsByClassName('organic-listing');
+			children = document.querySelectorAll('.organic-listing, .siteTable');
 		}
 		for (let i = 0; i < children.length; i++) {
 			observers.push(new MutationObserver(mutationCallback));
