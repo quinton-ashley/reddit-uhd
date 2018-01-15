@@ -10,7 +10,8 @@ $(function () {
 	let prefsPage = curPageUrl.includes('/prefs');
 	let msgPage = curPageUrl.includes('/message');
 	let usrPage = curPageUrl.includes('/user');
-	let redditPage = !(commentsPage || submitPage || prefsPage || msgPage || usrPage);
+	let resPage = curPageUrl.includes('/#res:settings');
+	let redditPage = !(commentsPage || submitPage || prefsPage || msgPage || usrPage || resPage);
 
 	let observers = [];
 	let mutationConfig = {
@@ -173,7 +174,7 @@ $(function () {
 			$thing.find('.parent').eq(0).wrap(`
 <div class="row justify-content-center"><div class="parent-div col-10 col-md-8 col-lg-6"></div></div>`);
 		}
-		$thing.find('.rank').remove();
+		$thing.find('.rank').attr('style', 'display:none!important;');
 
 		let entryClass;
 		if (commentsPage && !isPrimary) {
@@ -195,7 +196,7 @@ $(function () {
 		$topMatter.find('.flat-list').eq(0).wrapAll('<div class="list-div col-auto"></div>');
 		$thing.find('.child').addClass('col-12');
 		$thing.find('.clearleft').addClass('col-12');
-
+		$thing.find('.expando-button').attr('style', 'display:none!important');
 
 		$thing.find('.arrow').addClass('material-icons mx-auto my-0');
 
@@ -219,7 +220,7 @@ $(function () {
 		$comment.children().text('');
 		if (redditPage) {
 			$('#siteTable_organic').attr('style', '');
-			$('.usertext').remove();
+			$('.usertext').attr('style', 'display:none!important; margin:0!important; padding:0!important; border:none!important;');
 		}
 
 		$interact.find('.res-toggleAllChildren').parent()
@@ -261,7 +262,6 @@ $(function () {
 			$interact.find('.redditSingleClick').prepend(iconTagger('call_split', iconSize));
 
 			$thing.find('.expando').attr('style', 'display:none!important');
-			$thing.find('.expando-button').remove();
 			$thing.find('a.title').attr('target', '_blank');
 		}
 		if ((commentsPage && !isPrimary) || msgPage || usrPage) {
@@ -388,7 +388,7 @@ rel="stylesheet">
 
 		if (redditPage || msgPage || usrPage) {
 			$('#header').addClass('row');
-			$('#sr-header-area').addClass('col-8');
+			$('#sr-header-area').addClass('col-8 pl-0');
 			$('#header-bottom-left').addClass('col-8 col-lg-10 px-1');
 			$('#header-bottom-left').children().eq(0).remove();
 			$('form#search').children().eq(0).addClass('form-control-sm reddit-search mx-0 my-auto p-auto');
@@ -419,13 +419,20 @@ rel="stylesheet">
 				$('.menuarea').attr('style', 'display:none!important');
 			}
 			let $tabs = $('ul.tabmenu').children();
+			if (redditPage) {
+				$tabs.parent().prepend(`
+<li><a href="submit"></a></li>`);
+				$tabs = $('ul.tabmenu').children();
+			}
 			let icons;
 			if (redditPage) {
-				icons = ['whatshot', 'fiber_new', 'trending_up',
+				icons = ['edit', 'whatshot', 'fiber_new', 'trending_up',
 									 'announcement', 'vertical_align_top', 'account_balance', 'language'];
 			} else if (msgPage) {
 				icons = ['mode_edit', 'inbox', 'send', 'visibility', 'markunread_mailbox',
 								 'forum', 'art_track', 'contact_mail'];
+				$tabs.find('a[href$="/messages/"]').parent().remove();
+				$tabs = $('ul.tabmenu').children();
 			} else if (usrPage) {
 				icons = ['account_box', 'forum', 'art_track', 'account_balance'];
 			}
@@ -568,8 +575,9 @@ rel="stylesheet">
 		$('.entry, .RESUserTag, #RESShortcutsEditContainer, .res-tabmenu-button, .res-show-images, .md-container').addClass('qaru');
 		$('.srSep').remove();
 		$('#openRESPrefs').children().append(`
-<a href="/#res:settings/about">
-${iconTagger('settings_applications', 'md-8')}</a>`);
+<a href="#res:settings/about">
+${iconTagger('settings_applications', 'md-8')}
+</a>`);
 
 
 		// removes all spaces from the body, they are not elements
@@ -591,5 +599,7 @@ ${iconTagger('settings_applications', 'md-8')}</a>`);
 	}
 
 	log('qashto reddit-uhd loading...');
-	editPage();
+	if (!resPage) {
+		editPage();
+	}
 });

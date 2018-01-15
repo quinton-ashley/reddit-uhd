@@ -15,7 +15,10 @@ Don't autoplay videos on the desktop comments page
 Don't beta test features
 
 ## RES Coexistence
-This extension can coexist with the Reddit Enhancement Suite extension.  I recommend switching on night mode and switching off Subreddit Manager and Multireddit Navigation.
+This extension can coexist with the Reddit Enhancement Suite extension.  I don't personally recommend using the RES extension but if you want to use it I recommend switching on No Popups (core) and night mode (appearance).  Switch off User Info (user), Subreddit Manager (subreddits), and Multireddit Navigation (subreddits).
+
+## Know Issues
+When used with RES, the "My Subreddits" dropdown menu doesn't appear.  If you know why please help me out!
 
 ## Feature Requests
 Please make feature requests on the project's Github [issues page](https://github.com/quinton-ashley/reddit-uhd/issues).

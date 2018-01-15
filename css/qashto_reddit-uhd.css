@@ -9,7 +9,10 @@ text: #808080
 	}
 }
 
+.rank,
+.searchpane,
 .side,
+.expando-button,
 #header-img,
 #chat-app,
 .c-close,
@@ -54,6 +57,7 @@ body>.content,
 .usertext-body,
 .comment-vote .title,
 .entry,
+.rank,
 .top-matter,
 .flat-list,
 .child,
@@ -583,6 +587,7 @@ input.btn:hover {
 	top: unset!important;
 }
 
+.res-freetext-expando,
 #RESShortcutsViewport,
 #RESShortcuts,
 .srLeftContainer,
