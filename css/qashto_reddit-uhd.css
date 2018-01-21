@@ -19,6 +19,7 @@ text: #808080
 .post-sharing-label,
 #sr-more-link,
 .hidepost-button,
+#block-homepage,
 .entry::before {
 	display: none!important;
 }
@@ -48,6 +49,14 @@ input[type=url] {
 	padding: 0!important;
 }
 
+div.App,
+div.ProfileTemplate,
+div.App__body,
+div.SubscriptionBar,
+div.BlueBar,
+div.ProfileTemplate__body,
+div.ProfileTemplate__content,
+div.ProfileTemplate__sidebar,
 body,
 .content,
 .spacer,
@@ -538,6 +547,19 @@ input.btn:hover {
 #newlink-with-image-upload .image-upload-drop-target {
 	border-color: #808080!important;
 	background-color: unset!important;
+}
+
+p.comments-num {
+	display: inline!important;
+	vertical-align: text-bottom;
+}
+
+.turn-r {
+	transform: rotateZ(90deg);
+}
+
+.turn-l {
+	transform: rotateZ(-90deg);
 }
 
 .flip-x {

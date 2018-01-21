@@ -40,6 +40,14 @@ $(function () {
 		return $this;
 	}
 
+	$.fn.hide = function () {
+		this.attr('style', 'display:none!important;');
+	}
+
+	$.fn.vanish = function () {
+		this.attr('style', 'display:none!important; margin:0!important; padding:0!important; border:none!important;');
+	}
+
 	function makeRequest(method, url) {
 		return new Promise(function (resolve, reject) {
 			var xhr = new XMLHttpRequest();
@@ -174,15 +182,15 @@ $(function () {
 			$thing.find('.parent').eq(0).wrap(`
 <div class="row justify-content-center"><div class="parent-div col-10 col-md-8 col-lg-6"></div></div>`);
 		}
-		$thing.find('.rank').attr('style', 'display:none!important;');
+		$thing.find('.rank').hide();
 
 		let entryClass;
 		if (commentsPage && !isPrimary) {
 			entryClass = 'col-12';
 		} else if (content || (commentsPage && isPrimary)) {
-			entryClass = 'col-11 col-md-9 col-lg-7';
+			entryClass = 'col-11 col-md-10 col-lg-8 col-xl-6';
 		} else {
-			entryClass = 'col-10 col-md-8 col-lg-6';
+			entryClass = 'col-10 col-md-9 col-lg-7 col-xl-5';
 		}
 		$thing.find('.entry').addClass(entryClass);
 
@@ -196,37 +204,36 @@ $(function () {
 		$topMatter.find('.flat-list').eq(0).wrapAll('<div class="list-div col-auto"></div>');
 		$thing.find('.child').addClass('col-12');
 		$thing.find('.clearleft').addClass('col-12');
-		$thing.find('.expando-button').attr('style', 'display:none!important');
+		$thing.find('.expando-button').hide();
 
 		$thing.find('.arrow').addClass('material-icons mx-auto my-0');
 
 		let $interact = $thing.find('.flat-list');
 		let iconSize = ((redditPage || (commentsPage && isPrimary)) ? ' ' : 'md-8');
 
-		if (!usrPage) {
-			let $bylinks = $interact.find('.bylink');
-			$bylinks.text('');
-			$bylinks.parent().attr('style', 'display:none!important');
+		if (!usrPage && !(commentsPage && isPrimary)) {
+			let $bylinks = $interact.find('.bylink').slice(1);
+			$bylinks.parent().hide();
 		} else {
-			$interact.find('.first').attr('style', 'display:none!important');
+			$interact.find('.first').hide();
 		}
 
 		let $crosspost = $interact.find('.crosspost-button').children();
 		$crosspost.text('');
-		$crosspost.prepend(iconTagger('repeat', iconSize));
+		$crosspost.prepend(iconTagger('call_split', iconSize, 'turn-r'));
 
 		let modalName = $crosspost.attr('data-crosspost-fullname') + '_qaru-modal';
 		let $comment = $interact.find('.first').eq(0);
-		$comment.children().text('');
+		//		$comment.children().text('');
 		if (redditPage) {
 			$('#siteTable_organic').attr('style', '');
-			$('.usertext').attr('style', 'display:none!important; margin:0!important; padding:0!important; border:none!important;');
+			$('.usertext').vanish();
 		}
+		$('span.domain').hide();
 
-		$interact.find('.res-toggleAllChildren').parent()
-			.attr('style', 'display:none!important');
+		$interact.find('.res-toggleAllChildren').parent().hide();
 
-		let $share = $interact.find('.share').eq(0).attr('style', 'display:none!important');
+		let $share = $interact.find('.share').eq(0).hide();
 
 		$interact.find('.hide-button').parent().addClass('hidepost-button');
 		let $hide = $interact.find('.hide-button').find('span').children();
@@ -240,16 +247,17 @@ $(function () {
 		$report.prepend(iconTagger('error_outline', iconSize));
 
 		if (redditPage) {
-			let commentsUrl = $comment.children().attr('href');
-			$comment.after(`
-<li class="comment-popup-button">
-	<a target="_blank" href="${$thing.attr('data-permalink')}">
-		${iconTagger('comment', iconSize)}
-	</a>
-</li>`);
+			$comment = $comment.children();
+			$comment.prop('target', '_blank');
+			$interact.before(`
+<p class="comments-num">
+${$comment.text().replace('comments', '')}
+</p>`);
+			$comment.text('');
+			$comment.append(iconTagger('comment', iconSize));
 		}
 		if (redditPage || (commentsPage && isPrimary)) {
-			$thing.find('.midcol').addClass('vote col-1 mx-0 my-auto');
+			$thing.find('.midcol, div.Post__scoreWrap').addClass('vote col-1 mx-0 my-auto');
 
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
@@ -259,19 +267,17 @@ $(function () {
 			$source.attr('data-text', '');
 			$source.prepend(iconTagger('code', iconSize));
 
-			$interact.find('.redditSingleClick').prepend(iconTagger('call_split', iconSize));
+			$interact.find('.redditSingleClick').prepend(iconTagger('layers', iconSize));
 
-			$thing.find('.expando').attr('style', 'display:none!important');
+			$thing.find('.expando').hide();
 			$thing.find('a.title').attr('target', '_blank');
 		}
 		if ((commentsPage && !isPrimary) || msgPage || usrPage) {
-			$comment.attr('style', 'display:none!important');
+			$comment.hide();
 
-			$interact.find('.viewSource, .saveComments')
-				.attr('style', 'display:none!important');
+			$interact.find('.viewSource, .saveComments').hide();
 
-			$interact.find('.toggleChildren, .embed-comment').parent()
-				.attr('style', 'display:none!important');
+			$interact.find('.toggleChildren, .embed-comment').parent().hide();
 
 			let $save = $interact.find('.save-button').children();
 			$save.text('');
@@ -303,10 +309,10 @@ $(function () {
 				$thing.find('.arrow').eq(0).after($score.detach());
 			}
 			$thing.find('.arrow').addClass('md-8 comment-vote-arrow mx-0 my-auto');
-			$thing.find('.midcol').addClass('comment-vote');
+			$thing.find('.midcol, div.Post__scoreWrap').addClass('comment-vote');
 			$thing.find('.flat-list').addClass('comment-button-list');
-			$thing.find('p.tagline').eq(0).after($thing.find('.midcol').eq(0));
-			$thing.find('.midcol').eq(0).after($thing.find('.flat-list').eq(0));
+			$thing.find('p.tagline').eq(0).after($thing.find('.midcol, div.Post__scoreWrap').eq(0));
+			$thing.find('.midcol, div.Post__scoreWrap').eq(0).after($thing.find('.flat-list').eq(0));
 			$thing.find('div.usertext-body').addClass('col-12');
 		}
 		if (msgPage) {
@@ -327,7 +333,8 @@ $(function () {
 			$showParent.text('');
 			$showParent.prepend(iconTagger('short_text', iconSize, 'flip-x flip-y'));
 
-		} else if (usrPage) {
+		}
+		if (msgPage || usrPage) {
 			let $context = $interact.find('.bylink')
 				.filter(function (i) {
 					return ($(this).text() == 'context');
@@ -368,7 +375,7 @@ $(function () {
 	}
 
 	function commentPageContentShown() {
-		$('#qaru-comments-page-show-content').attr('style', 'display:none!important');
+		$('#qaru-comments-page-show-content').hide();
 	}
 
 	async function editPage() {
@@ -378,8 +385,8 @@ rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 `);
-		$('.listing-chooser').attr('style', 'display:none!important');
-		$('.infobar').attr('style', 'display:none!important');
+		$('.listing-chooser').hide();
+		$('.infobar').hide();
 		$('iframe').remove();
 		$('body').addClass('container-fluid');
 		$('input[type=text]').addClass('form-control');
@@ -398,7 +405,13 @@ rel="stylesheet">
 			$('form#search').eq(0).wrap('<div class="col-4 col-lg-2 px-1 my-auto"></div>');
 			$('#sr-header-area').after($('#header-bottom-right').detach());
 			$('#header-bottom-right').addClass('col-4 px-1 py-0 text-right');
-			$('span.separator').remove();
+			$('span.separator, span.BlueBar__accountDivider').remove();
+
+			// usr page for new reddit
+			$('div.App, div.ProfileTemplate').addClass('row');
+			$('div.App__body, div.SubscriptionBar, div.BlueBar, div.ProfileTemplate__body').addClass('col-12');
+			$('div.ProfileTemplate__content').addClass('col-9');
+			$('div.ProfileTemplate__sidebar').addClass('col-3');
 
 			let barIcons = ['home', 'people', 'public', 'shuffle', 'face'];
 			let $bar = $('ul.sr-bar').children();
@@ -412,11 +425,11 @@ rel="stylesheet">
 			}
 
 			if (redditPage || usrPage) {
-				$('.menuarea').attr('style', 'display:none!important');
+				$('.menuarea').hide();
 			} else if (msgPage) {
 				$('.menuarea').children().eq(0).children().eq(0).children().eq(0).remove();
 				$('.tabmenu').append($('.menuarea').children().eq(0).children().eq(0).children().detach());
-				$('.menuarea').attr('style', 'display:none!important');
+				$('.menuarea').hide();
 			}
 			let $tabs = $('ul.tabmenu').children();
 			if (redditPage) {
@@ -474,7 +487,7 @@ rel="stylesheet">
 		}
 		if (commentsPage) {
 			$('.tabmenu').remove();
-			$('.commentarea').addClass('col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12');
+			$('.commentarea').addClass('col-xl-4 col-lg-6 col-md-9 col-sm-11 col-xs-12');
 			$('.nestedlisting').eq(0).addClass('p-3');
 			$('#siteTable').wrap('<div class="row justify-content-center">');
 			$('.commentarea').wrap('<div class="row justify-content-center">');
@@ -494,7 +507,7 @@ rel="stylesheet">
 <a id="qaru-comments-page-show-content" onclick="
 				console.log('show content');
 				$('.thing').eq(0).attr('style', 'display:flex!important');
-				$('#qaru-comments-page-show-content').attr('style', 'display:none!important');
+				$('#qaru-comments-page-show-content').hide();
 ">
 	${iconTagger('art_track')}
 </a>
@@ -508,7 +521,7 @@ rel="stylesheet">
 			$('.usertext-edit').parent().addClass('row justify-content-center');
 			$('.usertext-edit').addClass('col-10');
 			$('.usertext-edit').children().eq(0).children().eq(0).addClass('mx-auto my-auto');
-			$('.help-hoverable').parent().attr('style', 'display:none!important');
+			$('.help-hoverable').parent().hide();
 		} else if (submitPage) {
 			let $tabs = $('ul.tabmenu').children();
 			$tabs.eq(0).children().eq(0).text('');
@@ -528,10 +541,10 @@ rel="stylesheet">
 			$('div#text-field').children().eq(0).remove();
 			$('div#reddit-field').children().eq(0).remove();
 			$('div#items-required').remove();
-			$('input#submit_type_profile').next().attr('style', 'display:none!important');
-			$('input#submit_type_subreddit').next().attr('style', 'display:none!important');
-			$('input#submit_type_profile').attr('style', 'display:none!important');
-			$('input#submit_type_subreddit').attr('style', 'display:none!important');
+			$('input#submit_type_profile').next().hide();
+			$('input#submit_type_subreddit').next().hide();
+			$('input#submit_type_profile').hide();
+			$('input#submit_type_subreddit').hide();
 			$('input#sendreplies').parent().prev().remove();
 			$('input#url').attr('placeholder', 'url');
 			$('textarea').eq(0).attr('placeholder', 'title');
@@ -539,7 +552,7 @@ rel="stylesheet">
 			$('input#sr-autocomplete').attr('placeholder', 'subreddit');
 		}
 
-		$('#chat-app').attr('style', 'display:none!important');
+		$('#chat-app').hide();
 
 		$('.content').attr('style', 'width: 100vw!important; max-width: 100vw!important;');
 		$('#siteTable').addClass('col-12');
@@ -563,10 +576,10 @@ rel="stylesheet">
 					commentPageContentShown();
 				} else {
 					if ($thing.hasClass('spoiler')) {
-						$thing.find('.expando').attr('style', 'display:none!important');
+						$thing.find('.expando').hide();
 						commentPageContentShown();
 					} else {
-						$thing.attr('style', 'display:none!important');
+						$thing.hide();
 					}
 				}
 			}
