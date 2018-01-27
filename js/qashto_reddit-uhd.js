@@ -102,14 +102,14 @@ $(function () {
 				url = 'https' + url.slice(4);
 			}
 			try {
+				if (url.includes('flickr')) {
+					url = 'https://www.flickr.com/' + url.match(/photos\/[^\/]+\/[^\/]+/) + '/sizes/o/';
+				}
 				let xhr = '<div>' + await makeRequest("GET", url) + '</div>';
 				let $xml = $($.parseHTML(xhr));
 				let special;
 				if (url.includes('flickr')) {
-					special = $xml.find('img.main-photo').attr('src');
-					if (special) {
-						special = 'https://' + special.slice(2);
-					}
+					special = $xml.find('#allsizes-photo').children().eq(0).attr('src');
 				}
 				if (!special) {
 					url = $xml.find('meta[property="og:image"]').attr('content');
@@ -251,7 +251,7 @@ $(function () {
 			$comment.prop('target', '_blank');
 			$interact.before(`
 <p class="comments-num">
-${$comment.text().replace('comments', '')}
+${$comment.text().replace('comments', '').replace('1 comment', '1').replace('comment', '0')}
 </p>`);
 			$comment.text('');
 			$comment.append(iconTagger('comment', iconSize));
