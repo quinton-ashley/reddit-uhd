@@ -11,6 +11,7 @@ $(function () {
 	let msgPage = curPageUrl.includes('/message');
 	let usrPage = curPageUrl.includes('/user');
 	let resPage = curPageUrl.includes('/#res:settings');
+	let homePage = curPageUrl == 'https://www.reddit.com/';
 	let redditPage = !(commentsPage || submitPage || prefsPage || msgPage || usrPage || resPage);
 
 	let observers = [];
@@ -432,6 +433,9 @@ rel="stylesheet">
 				$('.menuarea').hide();
 			}
 			let $tabs = $('ul.tabmenu').children();
+			if (homePage) {
+				$tabs.eq(0).remove();
+			}
 			if (redditPage) {
 				$tabs.parent().prepend(`
 <li><a href="submit"></a></li>`);
