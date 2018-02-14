@@ -3,7 +3,7 @@
 		{
 			"matches": ["*://*.reddit.com/*"],
 			"css": ["/css/qashto_reddit-uhd.css"],
-			"js": ["/node_modules/jquery/dist/jquery.min.js", "/js/qashto_reddit-uhd.js"],
+			"js": ["/js/jquery.min.js", "/js/qashto_reddit-uhd.js"],
 			"run_at": "document_end",
 			"all_frames": true
 		}
