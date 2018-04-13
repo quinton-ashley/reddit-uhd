@@ -44,3 +44,14 @@ jQuery
 popper.js
 ### Package Management
 npm
+
+### Donate!
+
+Bitcoin:
+172RBB7K6kk4rubjsH46zui3VspgxDnyFo
+
+Patreon:
+[https://www.patreon.com/qashto](https://www.patreon.com/qashto)
+
+Paypal:
+[https://www.paypal.me/qashto/5](https://www.paypal.me/qashto/5)
