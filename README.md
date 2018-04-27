@@ -50,8 +50,11 @@ npm
 
 ### Donate!
 
+Ethereum:
+0xb4355179da353f1BA4AA0BB5a7E3Ba4FdC7128ea
+
 Bitcoin:
-172RBB7K6kk4rubjsH46zui3VspgxDnyFo
+1562cPDAqTCtF1oX6RPMy1n8Rx6jvzYTvN
 
 Patreon:
 [https://www.patreon.com/qashto](https://www.patreon.com/qashto)
