@@ -281,6 +281,7 @@ ${$comment.text()
 </p>`);
       $comment.text('');
       $comment.append(iconTagger('comment', iconSize));
+      $interact.find('.give-gold-button').vanish();
     }
     if (redditPage || (commentsPage && isPrimary)) {
       $thing.find('.midcol, div.Post__scoreWrap').addClass(
@@ -298,9 +299,6 @@ ${$comment.text()
 
       $thing.find('.expando').hide();
       $thing.find('a.title').attr('target', '_blank');
-    }
-    if (!commentsPage) {
-      $interact.find('.give-gold-button').vanish();
     }
     if ((commentsPage && !isPrimary) || msgPage || usrPage) {
       $comment.hide();
@@ -477,11 +475,12 @@ rel="stylesheet">
         for (let i = 0; i < $tabs.length; i++) {
           log($tabs.eq(i).children().eq(0).attr('href'));
           if ($tabs.eq(i).children().eq(0).attr('href') === 'https://www.reddit.com/') {
-            log('hi');
             $tabs.eq(i).remove();
           }
         }
         $tabs = $('ul.tabmenu').children();
+
+        $('.nextprev').parent().wrapAll(`<center></center>`);
       }
       let icons;
       if (redditPage) {
