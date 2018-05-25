@@ -1,5 +1,8 @@
 # reddit-uhd
 ![app image by ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Antu_reddit.svg/512px-Antu_reddit.svg.png)
+## Download Links
+[chrome](https://chrome.google.com/webstore/detail/reddit-uhd/lbgicmachmkfbkbldccboimfplmemfip?hl=en-US)  
+[firefox](https://addons.mozilla.org/en-US/firefox/addon/reddit-uhd/)
 ## Redesign Philosophy and Goals
 [reddit-uhd](https://github.com/quinton-ashley/reddit-uhd) replaces tiny thumbnails and annoying collapsible preview images with full quality images, gifs, and videos on the front page of reddit and for all subreddits.  Transforms the design of every page, making reddit modern, clutter-free, and dark with an intuitive layout.  This extension is a must have for those that frequent photography subreddits and anyone who wants a truly enhanced browsing experience on reddit.  If you like this extension, consider showing your appreciation for the time, love, and effort I put in by making a one time donation to my Paypal.  If you want to support the continued development of reddit-uhd, consider making a monthly donation to my Patreon.  If you don't have the money to donate, please post about reddit-uhd on your favorite subreddits.  Enjoy the definitive reddit experience! :)  
 
@@ -44,3 +47,17 @@ jQuery
 popper.js
 ### Package Management
 npm
+
+### Donate!
+
+Ethereum:
+0xb4355179da353f1BA4AA0BB5a7E3Ba4FdC7128ea
+
+Bitcoin:
+1562cPDAqTCtF1oX6RPMy1n8Rx6jvzYTvN
+
+Patreon:
+[https://www.patreon.com/qashto](https://www.patreon.com/qashto)
+
+Paypal:
+[https://www.paypal.me/qashto/5](https://www.paypal.me/qashto/5)
