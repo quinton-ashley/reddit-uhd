@@ -473,8 +473,9 @@ rel="stylesheet">
 <li><a href="submit"></a></li>`);
         $tabs = $('ul.tabmenu').children();
         for (let i = 0; i < $tabs.length; i++) {
-          log($tabs.eq(i).children().eq(0).attr('href'));
-          if ($tabs.eq(i).children().eq(0).attr('href') === 'https://www.reddit.com/') {
+          let href = $tabs.eq(i).children().eq(0).attr('href');
+          if (href == 'https://www.reddit.com/' ||
+            href == 'https://old.reddit.com/') {
             $tabs.eq(i).remove();
           }
         }
