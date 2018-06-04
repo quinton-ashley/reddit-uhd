@@ -1,5 +1,5 @@
 /*
-bg: #302423
+bg: #0e0100
 text: #808080
 */
 
@@ -121,7 +121,7 @@ li:hover, a:hover, a.choice:hover, .entry .flat-list li a:hover, .tagline a:hove
   color: #808080 !important;
 }
 
-.link .usertext-body .md, .report-modal .report-reason-item .report-reason-display {
+pre, code, .link .usertext-body .md, .report-modal .report-reason-item .report-reason-display {
   background-color: #0e0100 !important;
   color: #808080 !important;
   border: none !important;
