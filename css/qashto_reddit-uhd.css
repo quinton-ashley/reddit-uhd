@@ -26,7 +26,7 @@ body, .content, .drop-choices {
   padding: 0 !important;
 }
 
-div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, div.ProfileTemplate__body, div.ProfileTemplate__content, div.ProfileTemplate__sidebar, body, .content, .spacer, body>.content, .commentarea, .commentarea>.usertext, .usertext-body, .comment-vote .title, .entry, .rank, .top-matter, .flat-list, .child, .clear-left, .title-div, .list-div, .subject-div, .parent-div, .parent, #header, #siteTable, .thumbnail, .reddit-search, .full-res-content, .full-res-img, .link .usertext-body .md {
+div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, div.ProfileTemplate__body, div.ProfileTemplate__content, div.ProfileTemplate__sidebar, body, .content, .spacer, body>.content, .commentarea, .commentarea>.usertext, .usertext.border .usertext-body, .usertext-body, .comment-vote .title, .entry, .rank, .top-matter, .flat-list, .child, .clear-left, .title-div, .list-div, .subject-div, .parent-div, .parent, #header, #siteTable, .thumbnail, .reddit-search, .full-res-content, .full-res-img, .link .usertext-body .md {
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -121,7 +121,7 @@ li:hover, a:hover, a.choice:hover, .entry .flat-list li a:hover, .tagline a:hove
   color: #808080 !important;
 }
 
-pre, code, .link .usertext-body .md, .report-modal .report-reason-item .report-reason-display {
+pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-modal .report-reason-item .report-reason-display {
   background-color: #0e0100 !important;
   color: #808080 !important;
   border: none !important;
@@ -191,6 +191,10 @@ pre, code, .link .usertext-body .md, .report-modal .report-reason-item .report-r
   background-image: none !important;
   background-color: transparent !important;
   color: #6d6d6d !important;
+  border: 0px !important;
+}
+
+.border {
   border: 0px !important;
 }
 
