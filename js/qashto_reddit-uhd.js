@@ -157,12 +157,12 @@ $(function() {
         return null;
       case 'gifv':
         content = `<img src="${url.slice(0, -1)}"
-					style="max-width:100%; max-height:100vh"`;
+					style="max-width:100%; max-height:var(--qaru-full-height)"`;
         break;
       default:
         type = 'img';
         content = `<img src="${url}"
-					style="max-width:100vw; max-height:100vh"`;
+					style="max-width:var(--qaru-full-width); max-height:var(--qaru-full-height)"`;
     }
     content += ` onerror="this.style='display:none'">`;
     return `<div class="full-res-${type} col-12">
@@ -205,7 +205,7 @@ $(function() {
     let entryClass;
     if (commentsPage && !isPrimary) {
       entryClass = 'col-12';
-    } else if (content || (commentsPage && isPrimary)) {
+    } else if (content || msgPage || (commentsPage && isPrimary)) {
       entryClass = 'col-11 col-md-10 col-lg-8 col-xl-6';
     } else {
       entryClass = 'col-10 col-md-9 col-lg-7 col-xl-5';
@@ -347,7 +347,7 @@ ${$comment.text()
       $thing.find('p.subject').eq(0).addClass('mx-auto my-auto');
       $thing.find('p.subject').eq(0).wrapAll(`
 <div class="row justify-content-center">
-	<div class="subject-div col-10 col-md-8 col-lg-6">
+	<div class="subject-div col-12 col-md-11 col-lg-9 col-xl-7">
 	</div>
 </div>
 `);
@@ -456,6 +456,7 @@ rel="stylesheet">
         $bar.eq(i).children().eq(0).text('');
         $bar.eq(i).children().eq(0).prepend(iconTagger(barIcons[i], 'md-8', 'px-1'));
       }
+      $('.selected.title').text('').prepend(iconTagger('menu', 'md-8', 'px-1'));
 
       if (redditPage || usrPage) {
         $('.menuarea').hide();
@@ -535,7 +536,7 @@ rel="stylesheet">
     }
     if (commentsPage) {
       $('.tabmenu').remove();
-      $('.commentarea').addClass('col-xl-4 col-lg-6 col-md-9 col-sm-11 col-xs-12');
+      $('.commentarea').addClass('col-xl-6 col-lg-8 col-md-10 col-sm-12');
       $('.nestedlisting').eq(0).addClass('p-3');
       $('#siteTable').wrap('<div class="row justify-content-center">');
       $('.commentarea').wrap('<div class="row justify-content-center">');
@@ -603,7 +604,7 @@ rel="stylesheet">
     $('#chat-app').hide();
 
     $('.content').attr('style',
-      'width: 100vw!important; max-width: 100vw!important;');
+      'width: var(--qaru-full-width)!important; max-width: var(--qaru-full-width)!important;');
     $('#siteTable').addClass('col-12');
     $('.thumbnail').wrap(
       '<div class="thumbnail-div col-1 mx-0 my-auto"></div>');
@@ -621,7 +622,7 @@ rel="stylesheet">
         if (!($thing.find('.full-res-content').length ||
             $thing.find('.full-res-img').length)) {
           $thing.find('.expando').addClass(
-            'col-xl-4 col-lg-6 col-md-8 col-sm-10 col-xs-12 px-auto py-5');
+            'col-xl-6 col-lg-8 col-md-10 col-sm-12 px-auto py-5');
           $thing.find('.expando').attr('style', 'display: block!important;');
           $thing.prepend($thing.find('.expando').detach());
           $thing.find('.expando').wrapAll('<div class="row justify-content-center"></div>');

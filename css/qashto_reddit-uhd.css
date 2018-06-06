@@ -1,7 +1,18 @@
-/*
-bg: #0e0100
-text: #808080
-*/
+:root, html {
+  --qaru-page-bg: #302423;
+  --qaru-bg: #0e0100;
+  --qaru-text: #808080;
+  --qaru-dark-text: #6d6d6d;
+  --qaru-velvet: #812100;
+  --qaru-scale-factor: 1.33;
+  --qaru-full-width: calc(100vw * (1 / var(--qaru-scale-factor)));
+  --qaru-full-height: calc(100vh * (1 / var(--qaru-scale-factor)));
+  max-width: var(--qaru-full-width) !important;
+  min-width: var(--qaru-full-width) !important;
+  width: var(--qaru-full-width) !important;
+  transform: scale(var(--qaru-scale-factor));
+  transform-origin: 0 0 !important;
+}
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   ::-webkit-scrollbar {
@@ -9,13 +20,13 @@ text: #808080
   }
 }
 
-.rank, .searchpane, .side, .expando-button, #header-img, #chat-app, .c-close, .post-sharing-label, #sr-more-link, .hidepost-button, #block-homepage, .entry::before {
+.redesign-beta-optin, .rank, .searchpane, .side, .expando-button, #header-img, #chat-app, .c-close, .post-sharing-label, #sr-more-link, .hidepost-button, #block-homepage, .entry::before {
   display: none !important;
 }
 
 body, .content, .drop-choices {
-  background-color: #302423 !important;
-  color: #808080 !important;
+  background-color: var(--qaru-page-bg) !important;
+  color: var(--qaru-text) !important;
 }
 
 .tabmenu li, #mail, #chat, .expando, .panestack-title, input[type=text], input[type=url] {
@@ -31,7 +42,14 @@ div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, d
   padding: 0 !important;
 }
 
-.message-count, #siteTable_organic, .menuarea, #sr-header-area .drop-choices.srdrop {
+.dropdown.srdrop .selected {
+  background: none !important;
+  background-image: none !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.message-count, #siteTable_organic, #sr-header-area .drop-choices.srdrop {
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
@@ -48,7 +66,7 @@ div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, d
 }
 
 .thing, .linklisting .odd, .stickied.link, #ad-frame, #ad_main, #ad_main_top.ad300x250, #images, #previoussearch #moresearchinfo, .account-activity-box, .commentarea, .commentarea>.sitetable>.qaru.comment, .commentarea>.usertext, .comments-page .link, .comments-page .side .linkinfo, .linefield, .login-form-side, .side .sidecontentbox, .side .titlebox, .sponsorshipbox, .crossposting-modal, .modal-body, .crosspost-thing-preview, .crosspost-field, .crosspost-title, .crosspost-title-fake, .stylesheet-customize-container .pretty-form, .submit-link .morelink::before, .submit-page .roundfield, .wiki-page .wiki-page-content, [lang^=ns-] .listing-page .content .sitetable::after, [lang^=ns-] .side .md>table::after, [lang^=ow-] .listing-page .content .sitetable::after, [lang^=ow-] .side .md>table::after, html .qaru.comment .child .qaru.comment, .commentarea .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment .qaru.comment, .commentarea .thing.noncollapsed, .res .commentarea .thing.noncollapsed, html.res-commentBoxes.res-commentBoxes-rounded .comment.noncollapsed {
-  background-color: #0e0100 !important;
+  background-color: var(--qaru-bg) !important;
   padding: 0 !important;
   margin-top: 0.5em !important;
   margin-bottom: 0.5em !important;
@@ -63,35 +81,35 @@ div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, d
 }
 
 #header-bottom-left .tabmenu, #header-bottom-right {
-  background-color: #0e0100 !important;
-  color: #812100 !important;
+  background-color: var(--qaru-bg) !important;
+  color: var(--qaru-velvet) !important;
   border: 0px !important;
   margin: 0 !important;
 }
 
 #header {
-  background-color: #0e0100 !important;
-  color: #812100 !important;
+  background-color: var(--qaru-bg) !important;
+  color: var(--qaru-velvet) !important;
   border: 0px !important;
   border-radius: 0px !important;
 }
 
 #header::before, #sr-header-area {
-  background-color: #0e0100 !important;
-  color: #812100 !important;
+  background-color: var(--qaru-bg) !important;
+  color: var(--qaru-velvet) !important;
   border: 0px !important;
 }
 
 li, a, a.choice, .entry .flat-list li a, .tagline a, .search-result-meta a, #sr-more-link, .tabmenu li a, .entry .flat-list .redditSingleClick, .tagline a, .search-result-meta a, #sr-more-link, .tabmenu li a, .rank, .entry .flat-list .redditSingleClick:visited, .entry .flat-list li a:visited, .thing .title:visited, .link .score {
   background-color: transparent !important;
-  color: #6d6d6d !important;
+  color: var(--qaru-dark-text) !important;
   border: 0px !important;
   text-decoration: none !important;
 }
 
 li:hover, a:hover, a.choice:hover, .entry .flat-list li a:hover, .tagline a:hover, .search-result-meta a:hover, #sr-more-link:hover, .tabmenu li a:hover, .entry .flat-list .redditSingleClick:hover, .tagline a:hover, .search-result-meta a:hover, #sr-more-link:hover, .tabmenu li a:hover, body .content .sitetable .link .title a:hover, .link .entry .tagline a:hover, body .content .sitetable .link .title a:hover, .link .score.likes, .link .score.dislikes, .selected:hover {
   background-color: transparent !important;
-  color: #812100 !important;
+  color: var(--qaru-velvet) !important;
   border: 0px !important;
   text-decoration: none !important;
 }
@@ -118,17 +136,17 @@ li:hover, a:hover, a.choice:hover, .entry .flat-list li a:hover, .tagline a:hove
 }
 
 .md, .qaru.comment .usertext .md, p, .tagline .stickied-tagline, .search-result-meta .stickied-tagline, .dropdown.srdrop .selected, .spoiler-stamp {
-  color: #808080 !important;
+  color: var(--qaru-text) !important;
 }
 
 pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-modal .report-reason-item .report-reason-display {
-  background-color: #0e0100 !important;
-  color: #808080 !important;
+  background-color: var(--qaru-bg) !important;
+  color: var(--qaru-text) !important;
   border: none !important;
 }
 
 .thing .title, .flair {
-  color: #812100;
+  color: var(--qaru-velvet);
 }
 
 .buttons .comments.empty {
@@ -141,7 +159,7 @@ pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-mo
 
 @-webkit-keyframes autofill {
   to {
-    color: #812100;
+    color: var(--qaru-velvet);
     background: transparent;
   }
 }
@@ -156,31 +174,31 @@ pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-mo
 .form-control.login:focus {
 	text-align: center!important;
 	background-color: transparent!important;
-	color: #808080!important;
+	color: var(--qaru-text)!important;
 	border: none !important;
 	box-shadow: none!important;
 }
 */
 
 .btn-login {
-  color: #812100 !important;
+  color: var(--qaru-velvet) !important;
   background-color: transparent !important;
-  border-color: #812100 !important;
+  border-color: var(--qaru-velvet) !important;
 }
 
 .btn-login:hover {
-  color: #0e0100 !important;
+  color: var(--qaru-bg) !important;
   background-color: transparent !important;
-  border-color: #0e0100 !important;
+  border-color: var(--qaru-bg) !important;
 }
 
 ::placeholder {
-  color: #812100 !important;
+  color: var(--qaru-velvet) !important;
 }
 
 .post-sharing, .subreddit .usertext .md {
-  background-color: #0e0100 !important;
-  color: #808080 !important;
+  background-color: var(--qaru-bg) !important;
+  color: var(--qaru-text) !important;
 }
 
 .arrow {
@@ -190,7 +208,7 @@ pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-mo
 .arrow.up, .arrow.down {
   background-image: none !important;
   background-color: transparent !important;
-  color: #6d6d6d !important;
+  color: var(--qaru-dark-text) !important;
   border: 0px !important;
 }
 
@@ -201,7 +219,7 @@ pre, code, .link .usertext-body .md, .usertext.border .usertext-body, .report-mo
 .arrow.up:hover, .arrow.upmod, .arrow.down:hover, .arrow.downmod {
   background-image: none !important;
   background-color: transparent !important;
-  color: #812100 !important;
+  color: var(--qaru-velvet) !important;
   border: 0px !important;
 }
 
@@ -277,7 +295,7 @@ div.child {
 
 .row {
   width: 100% !important;
-  max-width: 100vw !important;
+  max-width: var(--qaru-full-width) !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
@@ -296,7 +314,7 @@ div.child {
 .qaru.comment .child, .qaru.comment .showreplies, .res-commentBoxes .qaru.comment div.child {
   border-left-width: 1px !important;
   border-left-style: solid !important;
-  border-left-color: #808080 !important;
+  border-left-color: var(--qaru-text) !important;
 }
 
 .comment.collapsed .tagline, .comment.collapsed .tagline a, .comment.collapsed .search-result-meta, .comment.collapsed .search-result-meta a {
@@ -354,19 +372,19 @@ p.subject {
 }
 
 input, textarea, button, button.btn, select, input::placeholder, textarea::placeholder {
-  color: #808080 !important;
-  background-color: #0e0100 !important;
-  border-color: #808080 !important;
+  color: var(--qaru-text) !important;
+  background-color: var(--qaru-bg) !important;
+  border-color: var(--qaru-text) !important;
 }
 
 input:focus, textarea:focus, button:hover, button.btn:hover, input.btn:hover {
-  color: #808080 !important;
-  border-color: #812100 !important;
+  color: var(--qaru-text) !important;
+  border-color: var(--qaru-velvet) !important;
   box-shadow: 0 0 0 0.2rem rgba(129, 33, 0, .25) !important;
 }
 
 #newlink-with-image-upload .image-upload-drop-target {
-  border-color: #808080 !important;
+  border-color: var(--qaru-text) !important;
   background-color: unset !important;
 }
 
