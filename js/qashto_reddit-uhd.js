@@ -431,7 +431,7 @@ rel="stylesheet">
       $('#header-bottom-left').addClass('col-8 col-lg-10 px-1');
       $('#header-bottom-left').children().eq(0).remove();
       $('form#search').children().eq(0).addClass(
-        'form-control-sm reddit-search mx-0 my-auto p-auto');
+        'form-control-sm reddit-search mx-0 my-2 px-1 py-0');
       $('form#search').children().eq(1).remove();
       $('ul.sr-bar').eq(1).remove();
       $('#header-bottom-left').eq(0).after($('form#search').detach());

@@ -14,6 +14,14 @@
   transform-origin: 0 0 !important;
 }
 
+body {
+  height: var(--qaru-full-height) !important;
+}
+
+body, .footer-parent {
+  width: var(--qaru-full-width) !important;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   ::-webkit-scrollbar {
     display: none !important;
@@ -37,9 +45,13 @@ body, .content, .drop-choices {
   padding: 0 !important;
 }
 
-div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, div.ProfileTemplate__body, div.ProfileTemplate__content, div.ProfileTemplate__sidebar, body, .content, .spacer, body>.content, .commentarea, .commentarea>.usertext, .usertext.border .usertext-body, .usertext-body, .comment-vote .title, .entry, .rank, .top-matter, .flat-list, .child, .clear-left, .title-div, .list-div, .subject-div, .parent-div, .parent, #header, #siteTable, .thumbnail, .reddit-search, .full-res-content, .full-res-img, .link .usertext-body .md {
+.footer-parent, div.App, div.ProfileTemplate, div.App__body, div.SubscriptionBar, div.BlueBar, div.ProfileTemplate__body, div.ProfileTemplate__content, div.ProfileTemplate__sidebar, body, .content, .spacer, body>.content, .commentarea, .commentarea>.usertext, .usertext.border .usertext-body, .usertext-body, .comment-vote .title, .entry, .rank, .top-matter, .flat-list, .child, .clear-left, .title-div, .list-div, .subject-div, .parent-div, .parent, #header, #siteTable, .thumbnail, .full-res-content, .full-res-img, .link .usertext-body .md {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+.reddit-search {
+  border-radius: 0px !important;
 }
 
 .dropdown.srdrop .selected {
