@@ -1,3 +1,15 @@
+// ==UserScript==
+// @name         Reddit UHD
+// @namespace    http://qashto.com/
+// @version      1.3.3
+// @description  Reddit for UHD displays
+// @author       qashto
+// @match        *://*.reddit.com/*
+// @run-at       document-start
+// @grant        GM_addStyle
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
+// ==/UserScript==
+
 $(function() {
   const log = console.log;
   let opt = {
@@ -412,11 +424,18 @@ ${$comment.text()
 
   async function editPage() {
     $('head').append(`
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-`);
+    `);
+    if (typeof GM_addStyle === 'undefined') {
+      $('head').append(`
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+      `);
+    } else {
+      $('head').append(`
+<link href="https://cdn.rawgit.com/quinton-ashley/reddit-uhd/master/css/qashto_reddit-uhd.css" rel="stylesheet">
+      `);
+    }
     $('.listing-chooser').hide();
     $('.infobar').hide();
     $('iframe').remove();
