@@ -2,10 +2,11 @@
 
 ![app image ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Antu_reddit.svg/512px-Antu_reddit.svg.png)
 
-### Download Links
+### Install
 
 [chrome extension](https://chrome.google.com/webstore/detail/reddit-uhd/lbgicmachmkfbkbldccboimfplmemfip?hl=en-US)  
-[firefox addon](https://addons.mozilla.org/en-US/firefox/addon/reddit-uhd/)
+[firefox addon](https://addons.mozilla.org/en-US/firefox/addon/reddit-uhd/)  
+[userscript](https://github.com/quinton-ashley/reddit-uhd/raw/master/js/qashto_reddit-uhd.user.js)
 
 ### Redesign Philosophy and Goals
 
