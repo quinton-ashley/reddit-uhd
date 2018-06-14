@@ -14,17 +14,27 @@
   transform-origin: 0 0 !important;
 }
 
-body {
-  height: var(--qaru-full-height) !important;
-}
+@-moz-document url-prefix() {
+  body {
+    height: calc(var(--qaru-full-height) + var(--scrollbar-height)) !important;
+  }
 
-body, .footer-parent {
-  width: var(--qaru-full-width) !important;
+  body, .footer-parent {
+    width: calc(var(--qaru-full-width) + var(--scrollbar-width)) !important;
+  }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   ::-webkit-scrollbar {
     display: none !important;
+  }
+
+  body {
+    height: var(--qaru-full-height) !important;
+  }
+
+  body, .footer-parent {
+    width: var(--qaru-full-width) !important;
   }
 }
 

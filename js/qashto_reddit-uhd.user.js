@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reddit UHD
 // @namespace    http://qashto.com/
-// @version      1.3.3
+// @version      1.3.4
 // @description  Reddit for UHD displays
 // @author       qashto
 // @match        *://*.reddit.com/*
