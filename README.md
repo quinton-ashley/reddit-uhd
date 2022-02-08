@@ -1,6 +1,6 @@
 # reddit-uhd
 
-![app image ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Antu_reddit.svg/512px-Antu_reddit.svg.png)
+![app image](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Antu_reddit.svg/512px-Antu_reddit.svg.png)
 
 ### Install
 
@@ -50,7 +50,5 @@ All Antü suite components are licensed Creative Commons or compatible (look at 
 
 ### Donate!
 
-Ethereum: 0xb4355179da353f1BA4AA0BB5a7E3Ba4FdC7128ea  
-Bitcoin: 1562cPDAqTCtF1oX6RPMy1n8Rx6jvzYTvN  
 Patreon: <https://www.patreon.com/qashto>  
 Paypal: <https://www.paypal.me/qashto/5>
