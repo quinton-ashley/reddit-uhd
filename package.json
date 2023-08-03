@@ -1,37 +1,34 @@
 {
-  "author": "Quinton Ashley",
-  "bugs": {
-    "url": "https://github.com/quinton-ashley/reddit-uhd/issues"
-  },
-  "contributors": [
-    {
-      "name": "Quinton Ashley",
-      "email": "qashto@gmail.com"
-    }
-  ],
-  "dependencies": {
-    "jquery": "^3.4.1"
-  },
-  "description": "Web browser extension that redesigns reddit for a better UHD browsing experience",
-  "keywords": [
-    "ext",
-    "reddit",
-    "uhd",
-    "high-res"
-  ],
-  "license": "MIT",
-  "main": "qashto_reddit-uhd.user.js",
-  "name": "reddit-uhd",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/quinton-ashley/reddit-uhd.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "web-ext build",
-    "v": "npm version patch --force",
-    "version": "git add -A",
-    "postversion": "git push"
-  },
-  "version": "1.3.5"
+	"author": "Quinton Ashley",
+	"bugs": {
+		"url": "https://github.com/quinton-ashley/reddit-uhd/issues"
+	},
+	"contributors": [
+		{
+			"name": "Quinton Ashley",
+			"email": "qashto@gmail.com"
+		}
+	],
+	"description": "Web browser extension that redesigns reddit for a better UHD browsing experience",
+	"keywords": [
+		"ext",
+		"reddit",
+		"uhd",
+		"high-res"
+	],
+	"license": "MIT",
+	"main": "qashto_reddit-uhd.user.js",
+	"name": "reddit-uhd",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/quinton-ashley/reddit-uhd.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dist": "web-ext build",
+		"v": "npm version patch --force",
+		"version": "git add -A",
+		"postversion": "git push"
+	},
+	"version": "1.3.6"
 }

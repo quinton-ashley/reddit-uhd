@@ -1,6 +1,6 @@
 .DS_Store
-dev/**
-usr/**
-node_modules/**
-web-ext-artifacts/**
+dev/
+usr/
+node_modules/
+web-ext-artifacts/
 *.log
